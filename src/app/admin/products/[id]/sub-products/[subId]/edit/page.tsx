@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Save, Eye, EyeOff, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Eye, EyeOff, Trash2, List } from "lucide-react";
 import slugify from "slugify";
 import type { SubProduct, Product } from "@/lib/types";
 
@@ -137,13 +137,22 @@ export default function EditSubProductPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={handleDelete}
-          className="inline-flex items-center px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 rounded-lg font-medium transition-colors"
-        >
-          <Trash2 className="h-5 w-5 mr-2" />
-          Delete
-        </button>
+        <div className="flex items-center space-x-3">
+          <Link
+            href={`/admin/products/${productId}/sub-products/${subId}/items`}
+            className="inline-flex items-center px-4 py-2 text-maxx-accent hover:text-maxx-mint hover:bg-maxx-accent/10 border border-maxx-accent/30 rounded-lg font-medium transition-colors"
+          >
+            <List className="h-5 w-5 mr-2" />
+            Product Items
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="inline-flex items-center px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 rounded-lg font-medium transition-colors"
+          >
+            <Trash2 className="h-5 w-5 mr-2" />
+            Delete
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>
