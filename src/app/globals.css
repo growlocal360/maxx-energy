@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* MAXX Energy Color Palette - Navy/Teal Professional */
+  --color-maxx-950: #001029;
+  --color-maxx-900: #002362;
+  --color-maxx-800: #003080;
+  --color-maxx-700: #004099;
+  --color-maxx-600: #0055b3;
+  --color-maxx-500: #0070cc;
+  --color-maxx-400: #3399e0;
+  --color-maxx-300: #66b3eb;
+  --color-maxx-200: #99ccf2;
+  --color-maxx-100: #cce6f9;
+  --color-maxx-50: #e8f1f7;
+
+  /* Brand Accents */
+  --color-maxx-accent: #00afc7;
+  --color-maxx-mint: #03e4b7;
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #002362;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e8f1f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00afc7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #002362;
+}
+
+/* Selection colors - teal tint */
+::selection {
+  background: rgba(0, 175, 199, 0.3);
+  color: #002362;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid #03e4b7;
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+.text-gradient {
+  background: linear-gradient(135deg, #00afc7 0%, #03e4b7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-maxx {
+  background: linear-gradient(180deg, #002362 0%, #001029 100%);
+}
+
+.bg-gradient-maxx-light {
+  background: linear-gradient(180deg, #e8f1f7 0%, #ffffff 100%);
+}
+
+.border-gradient {
+  border-image: linear-gradient(135deg, #00afc7 0%, #03e4b7 100%) 1;
+}
+
+/* Wave section divider */
+.wave-divider {
+  position: relative;
+}
+
+.wave-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
+}
+
+.wave-divider-light::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath fill='%23e8f1f7' d='M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Subtle grid pattern for sections */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(0, 175, 199, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 175, 199, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
