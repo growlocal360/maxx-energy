@@ -140,36 +140,43 @@ export default function ProductDetailClient({
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {product.sub_products.map((sub, index) => (
-                <motion.div
+                <Link
                   key={sub.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
-                  className="group bg-white border border-maxx-100 hover:border-maxx-accent/30 rounded-2xl p-8 transition-all duration-300 hover:shadow-lg hover:shadow-maxx-accent/10"
+                  href={`/products/${product.slug}/${sub.slug}`}
                 >
-                  {sub.image_url && (
-                    <div className="mb-6 rounded-xl overflow-hidden bg-maxx-50">
-                      <img
-                        src={sub.image_url}
-                        alt={sub.name}
-                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.08 }}
+                    className="group bg-white border border-maxx-100 hover:border-maxx-accent/30 rounded-2xl p-8 transition-all duration-300 hover:shadow-lg hover:shadow-maxx-accent/10 h-full"
+                  >
+                    {sub.image_url && (
+                      <div className="mb-6 rounded-xl overflow-hidden bg-maxx-50">
+                        <img
+                          src={sub.image_url}
+                          alt={sub.name}
+                          className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+
+                    <div className="w-2 h-2 rounded-full bg-maxx-mint mb-4" />
+
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-bold text-maxx-900 group-hover:text-maxx-accent transition-colors">
+                        {sub.name}
+                      </h3>
+                      <ArrowRight className="h-4 w-4 text-maxx-300 group-hover:text-maxx-accent group-hover:translate-x-1 transition-all" />
                     </div>
-                  )}
 
-                  <div className="w-2 h-2 rounded-full bg-maxx-mint mb-4" />
-
-                  <h3 className="text-lg font-bold text-maxx-900 mb-2 group-hover:text-maxx-accent transition-colors">
-                    {sub.name}
-                  </h3>
-
-                  {sub.description && (
-                    <div className="text-sm text-maxx-600 leading-relaxed">
-                      <RichTextContent content={sub.description} />
-                    </div>
-                  )}
-                </motion.div>
+                    {sub.description && (
+                      <div className="text-sm text-maxx-600 leading-relaxed">
+                        <RichTextContent content={sub.description} />
+                      </div>
+                    )}
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </div>

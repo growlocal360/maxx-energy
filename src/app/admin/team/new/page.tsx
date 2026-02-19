@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Save, Eye, EyeOff } from "lucide-react";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function NewTeamMemberPage() {
   const router = useRouter();
@@ -169,19 +170,11 @@ export default function NewTeamMemberPage() {
               transition={{ delay: 0.25 }}
               className="bg-maxx-900 border border-maxx-700 rounded-xl p-6"
             >
-              <h3 className="text-lg font-semibold text-white mb-4">Photo</h3>
-              <input
-                type="url"
+              <ImageUpload
                 value={photoUrl}
-                onChange={(e) => setPhotoUrl(e.target.value)}
-                className="w-full px-4 py-3 bg-maxx-800 border border-maxx-700 focus:border-maxx-accent rounded-lg text-white placeholder-maxx-400 outline-none transition-colors"
-                placeholder="Photo URL"
+                onChange={setPhotoUrl}
+                folder="team"
               />
-              {photoUrl && (
-                <div className="mt-4">
-                  <img src={photoUrl} alt="Preview" className="w-full h-48 object-cover rounded-lg border border-maxx-700" />
-                </div>
-              )}
             </motion.div>
 
             <motion.div

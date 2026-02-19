@@ -1,5 +1,5 @@
 export type { TeamMember } from "./team";
-export type { Product, SubProduct } from "./products";
+export type { Product, SubProduct, ProductItem } from "./products";
 export type { Project, ProjectImage } from "./projects";
 export type { Market } from "./markets";
 export type { ShalePlay } from "./shale-plays";

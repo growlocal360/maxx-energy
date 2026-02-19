@@ -28,3 +28,14 @@ export interface SubProduct {
   created_at: string;
   updated_at: string;
 }
+
+export interface ProductItem {
+  id: string;
+  sub_product_id: string;
+  family: string;
+  trade_name: string;
+  uom: string | null;
+  packing: string | null;
+  display_order: number;
+  created_at: string;
+}
