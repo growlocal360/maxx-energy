@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -11,6 +12,10 @@ import {
 } from "lucide-react";
 import type { Product } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
+
+const productHeroImages: Record<string, string> = {
+  "containment-solutions": "/maxx-containment-solutions-background.jpg",
+};
 
 function getProductIcon(slug: string) {
   switch (slug) {
@@ -31,13 +36,29 @@ export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
   const Icon = getProductIcon(product.slug);
+  const heroImage = productHeroImages[product.slug];
 
   return (
     <>
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 overflow-hidden bg-maxx-900">
-        <div className="absolute inset-0 bg-gradient-to-br from-maxx-950 via-maxx-900 to-maxx-800" />
-        <div className="absolute inset-0 grid-pattern opacity-50" />
+        {heroImage ? (
+          <>
+            <Image
+              src={heroImage}
+              alt=""
+              fill
+              priority
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-maxx-900/85 via-maxx-900/75 to-maxx-950/85" />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-br from-maxx-950 via-maxx-900 to-maxx-800" />
+            <div className="absolute inset-0 grid-pattern opacity-50" />
+          </>
+        )}
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
