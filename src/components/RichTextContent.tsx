@@ -35,6 +35,7 @@ export default function RichTextContent({ content }: RichTextContentProps) {
     ],
     content,
     editable: false,
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class:
