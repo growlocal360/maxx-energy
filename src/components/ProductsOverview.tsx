@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FlaskConical, Shield, ArrowRight } from "lucide-react";
@@ -9,6 +10,7 @@ const products = [
     name: "Chemical Solutions",
     href: "/products/chemical-solutions",
     icon: FlaskConical,
+    image: "/maxx-containment-solutions-background.jpg",
     description:
       "Revolutionary oilfield chemical formulations delivering permanent, cost-effective solutions for fracturing, production, drilling, water treatment, and more.",
     features: [
@@ -24,6 +26,7 @@ const products = [
     name: "Containment Solutions",
     href: "/products/containment-solutions",
     icon: Shield,
+    image: "/containment-solutions-hero.jpg",
     description:
       "Industry-leading spill containment and environmental protection products featuring high chemical resistance and engineered for demanding industrial environments.",
     features: [
@@ -85,36 +88,50 @@ export default function ProductsOverview() {
               >
                 <Link
                   href={product.href}
-                  className="group block h-full bg-maxx-50 border border-maxx-100 hover:border-maxx-accent/30 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10"
+                  className="group block h-full relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10"
                 >
-                  <div className="p-4 bg-maxx-accent/10 rounded-xl w-fit mb-6 group-hover:bg-maxx-accent/20 transition-colors">
-                    <Icon className="h-8 w-8 text-maxx-accent" />
+                  {/* Background image */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-maxx-950/95 via-maxx-950/75 to-maxx-950/40" />
                   </div>
 
-                  <h3 className="text-2xl font-bold text-maxx-900 mb-3 group-hover:text-maxx-accent transition-colors">
-                    {product.name}
-                  </h3>
+                  <div className="relative p-8">
+                    <div className="p-4 bg-maxx-accent/20 backdrop-blur-sm rounded-xl w-fit mb-6">
+                      <Icon className="h-8 w-8 text-maxx-mint" />
+                    </div>
 
-                  <p className="text-maxx-600 leading-relaxed mb-6">
-                    {product.description}
-                  </p>
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-maxx-mint transition-colors">
+                      {product.name}
+                    </h3>
 
-                  <ul className="space-y-2 mb-8">
-                    {product.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center text-sm text-maxx-700"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-maxx-mint mr-3 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+                    <p className="text-maxx-200 leading-relaxed mb-6">
+                      {product.description}
+                    </p>
 
-                  <span className="inline-flex items-center text-maxx-accent font-semibold group-hover:text-maxx-mint transition-colors">
-                    Learn More
-                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                    <ul className="space-y-2 mb-8">
+                      {product.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-center text-sm text-maxx-300"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-maxx-mint mr-3 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <span className="inline-flex items-center text-maxx-mint font-semibold group-hover:text-white transition-colors">
+                      Learn More
+                      <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
                 </Link>
               </motion.div>
             );
