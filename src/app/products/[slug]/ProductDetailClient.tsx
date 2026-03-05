@@ -14,7 +14,7 @@ import type { Product } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
 
 const productHeroImages: Record<string, string> = {
-  "containment-solutions": "/maxx-containment-solutions-background.jpg",
+  "containment-solutions": "/containment-solutions-hero.jpg",
   "chemical-solutions": "/maxx-containment-solutions-background.jpg",
   "spill-bully": "/spill-bully-hero.jpg",
 };
