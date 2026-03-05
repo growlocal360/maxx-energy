@@ -16,6 +16,7 @@ import RichTextContent from "@/components/RichTextContent";
 const productHeroImages: Record<string, string> = {
   "containment-solutions": "/maxx-containment-solutions-background.jpg",
   "chemical-solutions": "/maxx-containment-solutions-background.jpg",
+  "spill-bully": "/spill-bully-hero.jpg",
 };
 
 function getProductIcon(slug: string) {
