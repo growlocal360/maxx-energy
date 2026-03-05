@@ -62,18 +62,23 @@ export default async function ShalePlaysPage() {
             wherever your operations take you.
           </p>
         </div>
-      </section>
 
-      {/* Wave Divider */}
-      <div className="relative -mt-1">
-        <svg
-          viewBox="0 0 1440 120"
-          className="w-full h-auto fill-white"
-          preserveAspectRatio="none"
-        >
-          <path d="M0,96L48,85.3C96,75,192,53,288,48C384,43,480,53,576,69.3C672,85,768,107,864,106.7C960,107,1056,85,1152,74.7C1248,64,1344,64,1392,64L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" />
-        </svg>
-      </div>
+        {/* Wave divider */}
+        <div className="absolute bottom-0 left-0 w-full">
+          <svg
+            viewBox="0 0 1440 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            className="w-full h-16 sm:h-20"
+          >
+            <path
+              d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+      </section>
 
       {/* Shale Plays Grid */}
       <section className="py-16 bg-white">
