@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
@@ -17,6 +18,8 @@ export default function SubProductDetailClient({
   subProduct,
   items,
 }: SubProductDetailClientProps) {
+  const hasImages = items.some((item) => item.image_url);
+
   return (
     <>
       {/* Hero Section */}
@@ -108,7 +111,7 @@ export default function SubProductDetailClient({
       {/* Product Items Table */}
       {items.length > 0 && (
         <section className="py-16 bg-maxx-50">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -138,6 +141,9 @@ export default function SubProductDetailClient({
                 <table className="w-full">
                   <thead>
                     <tr className="bg-maxx-900 text-white">
+                      {hasImages && (
+                        <th className="w-20 px-4 py-4 text-sm font-semibold" />
+                      )}
                       <th className="text-left px-6 py-4 text-sm font-semibold">
                         Family
                       </th>
@@ -160,6 +166,23 @@ export default function SubProductDetailClient({
                           index % 2 === 0 ? "bg-white" : "bg-maxx-50/30"
                         }`}
                       >
+                        {hasImages && (
+                          <td className="px-4 py-3">
+                            {item.image_url ? (
+                              <div className="w-14 h-14 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0">
+                                <Image
+                                  src={item.image_url}
+                                  alt={item.trade_name}
+                                  fill
+                                  className="object-contain p-1"
+                                  sizes="56px"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-14 h-14 rounded-lg bg-maxx-50" />
+                            )}
+                          </td>
+                        )}
                         <td className="px-6 py-4 text-maxx-900 font-medium text-sm">
                           {item.family}
                         </td>
@@ -189,22 +212,35 @@ export default function SubProductDetailClient({
               {/* Mobile Cards */}
               <div className="sm:hidden divide-y divide-maxx-100">
                 {items.map((item) => (
-                  <div key={item.id} className="p-4 space-y-2">
-                    <p className="text-maxx-900 font-medium text-sm">
-                      {item.family}
-                    </p>
-                    <p className="text-maxx-600 text-sm">{item.trade_name}</p>
-                    <div className="flex items-center gap-2">
-                      {item.uom && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-accent/10 text-maxx-accent">
-                          {item.uom}
-                        </span>
-                      )}
-                      {item.packing && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-100 text-maxx-700">
-                          {item.packing}
-                        </span>
-                      )}
+                  <div key={item.id} className="p-4 flex items-center gap-4">
+                    {hasImages && item.image_url && (
+                      <div className="w-16 h-16 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0">
+                        <Image
+                          src={item.image_url}
+                          alt={item.trade_name}
+                          fill
+                          className="object-contain p-1"
+                          sizes="64px"
+                        />
+                      </div>
+                    )}
+                    <div className="space-y-1.5 min-w-0">
+                      <p className="text-maxx-900 font-medium text-sm">
+                        {item.family}
+                      </p>
+                      <p className="text-maxx-600 text-sm">{item.trade_name}</p>
+                      <div className="flex items-center gap-2">
+                        {item.uom && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-accent/10 text-maxx-accent">
+                            {item.uom}
+                          </span>
+                        )}
+                        {item.packing && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-100 text-maxx-700">
+                            {item.packing}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
