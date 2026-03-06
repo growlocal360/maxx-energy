@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight, ChevronRight, X } from "lucide-react";
 import type { Product, SubProduct, ProductItem } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
 
@@ -19,6 +20,24 @@ export default function SubProductDetailClient({
   items,
 }: SubProductDetailClientProps) {
   const hasImages = items.some((item) => item.image_url);
+  const [lightboxItem, setLightboxItem] = useState<ProductItem | null>(null);
+
+  const itemsWithImages = items.filter((item) => item.image_url);
+  const currentIndex = lightboxItem
+    ? itemsWithImages.findIndex((item) => item.id === lightboxItem.id)
+    : -1;
+
+  function goToNext() {
+    if (currentIndex < itemsWithImages.length - 1) {
+      setLightboxItem(itemsWithImages[currentIndex + 1]);
+    }
+  }
+
+  function goToPrev() {
+    if (currentIndex > 0) {
+      setLightboxItem(itemsWithImages[currentIndex - 1]);
+    }
+  }
 
   return (
     <>
@@ -169,7 +188,10 @@ export default function SubProductDetailClient({
                         {hasImages && (
                           <td className="px-4 py-3">
                             {item.image_url ? (
-                              <div className="w-14 h-14 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0">
+                              <button
+                                onClick={() => setLightboxItem(item)}
+                                className="w-14 h-14 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-maxx-accent transition-all"
+                              >
                                 <Image
                                   src={item.image_url}
                                   alt={item.trade_name}
@@ -177,7 +199,7 @@ export default function SubProductDetailClient({
                                   className="object-contain p-1"
                                   sizes="56px"
                                 />
-                              </div>
+                              </button>
                             ) : (
                               <div className="w-14 h-14 rounded-lg bg-maxx-50" />
                             )}
@@ -214,7 +236,10 @@ export default function SubProductDetailClient({
                 {items.map((item) => (
                   <div key={item.id} className="p-4 flex items-center gap-4">
                     {hasImages && item.image_url && (
-                      <div className="w-16 h-16 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0">
+                      <button
+                        onClick={() => setLightboxItem(item)}
+                        className="w-16 h-16 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-maxx-accent transition-all"
+                      >
                         <Image
                           src={item.image_url}
                           alt={item.trade_name}
@@ -222,7 +247,7 @@ export default function SubProductDetailClient({
                           className="object-contain p-1"
                           sizes="64px"
                         />
-                      </div>
+                      </button>
                     )}
                     <div className="space-y-1.5 min-w-0">
                       <p className="text-maxx-900 font-medium text-sm">
@@ -272,6 +297,71 @@ export default function SubProductDetailClient({
           </div>
         </div>
       </section>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxItem && lightboxItem.image_url && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setLightboxItem(null)}
+          >
+            <button
+              onClick={() => setLightboxItem(null)}
+              className="absolute top-4 right-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+            >
+              <X className="h-8 w-8" />
+            </button>
+
+            {currentIndex > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToPrev(); }}
+                className="absolute left-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+              >
+                <ArrowLeft className="h-8 w-8" />
+              </button>
+            )}
+
+            {currentIndex < itemsWithImages.length - 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToNext(); }}
+                className="absolute right-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+              >
+                <ArrowRight className="h-8 w-8" />
+              </button>
+            )}
+
+            <motion.div
+              key={lightboxItem.id}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-lg aspect-square bg-white rounded-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={lightboxItem.image_url}
+                alt={lightboxItem.trade_name}
+                fill
+                className="object-contain p-6"
+                sizes="(max-width: 512px) 100vw, 512px"
+              />
+            </motion.div>
+
+            <div className="absolute bottom-6 left-0 right-0 text-center">
+              <p className="text-white font-semibold text-lg">
+                {lightboxItem.trade_name}
+              </p>
+              <p className="text-white/60 text-sm mt-1">
+                {currentIndex + 1} of {itemsWithImages.length}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
