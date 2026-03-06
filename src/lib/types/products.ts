@@ -36,6 +36,7 @@ export interface ProductItem {
   trade_name: string;
   uom: string | null;
   packing: string | null;
+  image_url: string | null;
   display_order: number;
   created_at: string;
 }

@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight, ChevronRight, X } from "lucide-react";
 import type { Product, SubProduct, ProductItem } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
 
@@ -17,6 +19,26 @@ export default function SubProductDetailClient({
   subProduct,
   items,
 }: SubProductDetailClientProps) {
+  const hasImages = items.some((item) => item.image_url);
+  const [lightboxItem, setLightboxItem] = useState<ProductItem | null>(null);
+
+  const itemsWithImages = items.filter((item) => item.image_url);
+  const currentIndex = lightboxItem
+    ? itemsWithImages.findIndex((item) => item.id === lightboxItem.id)
+    : -1;
+
+  function goToNext() {
+    if (currentIndex < itemsWithImages.length - 1) {
+      setLightboxItem(itemsWithImages[currentIndex + 1]);
+    }
+  }
+
+  function goToPrev() {
+    if (currentIndex > 0) {
+      setLightboxItem(itemsWithImages[currentIndex - 1]);
+    }
+  }
+
   return (
     <>
       {/* Hero Section */}
@@ -108,7 +130,7 @@ export default function SubProductDetailClient({
       {/* Product Items Table */}
       {items.length > 0 && (
         <section className="py-16 bg-maxx-50">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -138,6 +160,9 @@ export default function SubProductDetailClient({
                 <table className="w-full">
                   <thead>
                     <tr className="bg-maxx-900 text-white">
+                      {hasImages && (
+                        <th className="w-20 px-4 py-4 text-sm font-semibold" />
+                      )}
                       <th className="text-left px-6 py-4 text-sm font-semibold">
                         Family
                       </th>
@@ -160,6 +185,26 @@ export default function SubProductDetailClient({
                           index % 2 === 0 ? "bg-white" : "bg-maxx-50/30"
                         }`}
                       >
+                        {hasImages && (
+                          <td className="px-4 py-3">
+                            {item.image_url ? (
+                              <button
+                                onClick={() => setLightboxItem(item)}
+                                className="w-14 h-14 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-maxx-accent transition-all"
+                              >
+                                <Image
+                                  src={item.image_url}
+                                  alt={item.trade_name}
+                                  fill
+                                  className="object-contain p-1"
+                                  sizes="56px"
+                                />
+                              </button>
+                            ) : (
+                              <div className="w-14 h-14 rounded-lg bg-maxx-50" />
+                            )}
+                          </td>
+                        )}
                         <td className="px-6 py-4 text-maxx-900 font-medium text-sm">
                           {item.family}
                         </td>
@@ -189,22 +234,38 @@ export default function SubProductDetailClient({
               {/* Mobile Cards */}
               <div className="sm:hidden divide-y divide-maxx-100">
                 {items.map((item) => (
-                  <div key={item.id} className="p-4 space-y-2">
-                    <p className="text-maxx-900 font-medium text-sm">
-                      {item.family}
-                    </p>
-                    <p className="text-maxx-600 text-sm">{item.trade_name}</p>
-                    <div className="flex items-center gap-2">
-                      {item.uom && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-accent/10 text-maxx-accent">
-                          {item.uom}
-                        </span>
-                      )}
-                      {item.packing && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-100 text-maxx-700">
-                          {item.packing}
-                        </span>
-                      )}
+                  <div key={item.id} className="p-4 flex items-center gap-4">
+                    {hasImages && item.image_url && (
+                      <button
+                        onClick={() => setLightboxItem(item)}
+                        className="w-16 h-16 relative rounded-lg overflow-hidden bg-maxx-50 flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-maxx-accent transition-all"
+                      >
+                        <Image
+                          src={item.image_url}
+                          alt={item.trade_name}
+                          fill
+                          className="object-contain p-1"
+                          sizes="64px"
+                        />
+                      </button>
+                    )}
+                    <div className="space-y-1.5 min-w-0">
+                      <p className="text-maxx-900 font-medium text-sm">
+                        {item.family}
+                      </p>
+                      <p className="text-maxx-600 text-sm">{item.trade_name}</p>
+                      <div className="flex items-center gap-2">
+                        {item.uom && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-accent/10 text-maxx-accent">
+                            {item.uom}
+                          </span>
+                        )}
+                        {item.packing && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-maxx-100 text-maxx-700">
+                            {item.packing}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -236,6 +297,71 @@ export default function SubProductDetailClient({
           </div>
         </div>
       </section>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxItem && lightboxItem.image_url && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setLightboxItem(null)}
+          >
+            <button
+              onClick={() => setLightboxItem(null)}
+              className="absolute top-4 right-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+            >
+              <X className="h-8 w-8" />
+            </button>
+
+            {currentIndex > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToPrev(); }}
+                className="absolute left-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+              >
+                <ArrowLeft className="h-8 w-8" />
+              </button>
+            )}
+
+            {currentIndex < itemsWithImages.length - 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goToNext(); }}
+                className="absolute right-4 p-2 text-white/80 hover:text-white transition-colors z-10"
+              >
+                <ArrowRight className="h-8 w-8" />
+              </button>
+            )}
+
+            <motion.div
+              key={lightboxItem.id}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-lg aspect-square bg-white rounded-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={lightboxItem.image_url}
+                alt={lightboxItem.trade_name}
+                fill
+                className="object-contain p-6"
+                sizes="(max-width: 512px) 100vw, 512px"
+              />
+            </motion.div>
+
+            <div className="absolute bottom-6 left-0 right-0 text-center">
+              <p className="text-white font-semibold text-lg">
+                {lightboxItem.trade_name}
+              </p>
+              <p className="text-white/60 text-sm mt-1">
+                {currentIndex + 1} of {itemsWithImages.length}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
