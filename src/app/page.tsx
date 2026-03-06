@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import ProductsOverview from "@/components/ProductsOverview";
+import ImageMarquee from "@/components/ImageMarquee";
 import StatsBar from "@/components/StatsBar";
 import ProjectsShowcase from "@/components/ProjectsShowcase";
 import MarketsGrid from "@/components/MarketsGrid";
@@ -11,6 +12,7 @@ export default function HomePage() {
     <>
       <Hero />
       <ProductsOverview />
+      <ImageMarquee />
       <StatsBar />
       <ProjectsShowcase />
       <MarketsGrid />

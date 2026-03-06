@@ -40,8 +40,15 @@ export default async function ShalePlaysPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-maxx-950 via-maxx-900 to-maxx-800 pt-32 pb-24">
-        <div className="absolute inset-0 grid-pattern opacity-50" />
+      <section className="relative bg-maxx-900 pt-32 pb-24">
+        <Image
+          src="/shale-plays-hero.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-maxx-900/85 via-maxx-900/75 to-maxx-950/85" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-maxx-accent font-semibold tracking-wider uppercase text-sm mb-3">
             Nationwide Coverage
@@ -55,18 +62,23 @@ export default async function ShalePlaysPage() {
             wherever your operations take you.
           </p>
         </div>
-      </section>
 
-      {/* Wave Divider */}
-      <div className="relative -mt-1">
-        <svg
-          viewBox="0 0 1440 120"
-          className="w-full h-auto fill-white"
-          preserveAspectRatio="none"
-        >
-          <path d="M0,96L48,85.3C96,75,192,53,288,48C384,43,480,53,576,69.3C672,85,768,107,864,106.7C960,107,1056,85,1152,74.7C1248,64,1344,64,1392,64L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" />
-        </svg>
-      </div>
+        {/* Wave divider */}
+        <div className="absolute bottom-0 left-0 w-full">
+          <svg
+            viewBox="0 0 1440 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            className="w-full h-16 sm:h-20"
+          >
+            <path
+              d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+      </section>
 
       {/* Shale Plays Grid */}
       <section className="py-16 bg-white">
@@ -83,60 +95,56 @@ export default async function ShalePlaysPage() {
               </p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
               {typedShalePlays.map((play) => {
                 const excerpt = extractExcerpt(play.description);
-
                 return (
                   <div
                     key={play.id}
-                    className="group relative bg-white border border-maxx-100 hover:border-maxx-accent/30 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10"
+                    className="group relative bg-gradient-to-b from-maxx-800 to-maxx-950 rounded-2xl p-8 pt-20 text-center transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10 hover:-translate-y-1"
                   >
-                    {/* Hero Image or Gradient */}
-                    <div className="relative h-56 overflow-hidden">
-                      {play.hero_image_url ? (
-                        <Image
-                          src={play.hero_image_url}
-                          alt={play.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="h-full bg-gradient-to-br from-maxx-900 to-maxx-800">
-                          <div className="absolute inset-0 grid-pattern opacity-30" />
-                        </div>
-                      )}
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-maxx-950/80 via-maxx-950/30 to-transparent" />
-
-                      {/* Content over image */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-2xl font-bold text-white mb-1">
-                          {play.name}
-                        </h3>
-                        {play.region && (
-                          <div className="flex items-center text-maxx-mint text-sm">
-                            <MapPin className="h-3.5 w-3.5 mr-1.5" />
-                            <span>{play.region}</span>
-                          </div>
+                    {/* Circle map image */}
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2">
+                      <div className="w-24 h-24 rounded-full border-4 border-maxx-accent/40 shadow-lg overflow-hidden bg-maxx-800">
+                        {play.hero_image_url ? (
+                          <Image
+                            src={play.hero_image_url}
+                            alt={play.name}
+                            width={96}
+                            height={96}
+                            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-maxx-accent to-maxx-mint" />
                         )}
                       </div>
                     </div>
 
+                    {/* Name */}
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {play.name}
+                    </h3>
+
+                    {/* Region */}
+                    {play.region && (
+                      <div className="flex items-center justify-center text-maxx-mint text-sm mb-4">
+                        <MapPin className="h-3.5 w-3.5 mr-1.5" />
+                        <span>{play.region}</span>
+                      </div>
+                    )}
+
                     {/* Description */}
-                    <div className="p-6">
-                      {excerpt ? (
-                        <p className="text-maxx-600 text-sm leading-relaxed">
-                          {excerpt}
-                        </p>
-                      ) : (
-                        <p className="text-maxx-400 text-sm italic">
-                          Serving energy operations in the{" "}
-                          {play.region || play.name} region with reliable
-                          chemical supply and containment solutions.
-                        </p>
-                      )}
-                    </div>
+                    {excerpt ? (
+                      <p className="text-maxx-300 text-sm leading-relaxed">
+                        {excerpt}
+                      </p>
+                    ) : (
+                      <p className="text-maxx-400 text-sm">
+                        Serving energy operations in the{" "}
+                        {play.region || play.name} region with reliable
+                        chemical supply and containment solutions.
+                      </p>
+                    )}
                   </div>
                 );
               })}

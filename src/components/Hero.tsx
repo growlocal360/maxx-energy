@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Droplets } from "lucide-react";
@@ -7,11 +8,17 @@ import { ArrowRight, Phone, Droplets } from "lucide-react";
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-maxx-900">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-maxx-950 via-maxx-900 to-maxx-800" />
+      {/* Background image */}
+      <Image
+        src="/upstream-electrical-mechanical-services-hero.jpg"
+        alt=""
+        fill
+        priority
+        className="object-cover"
+      />
 
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-50" />
+      {/* Blue overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-maxx-900/85 via-maxx-900/75 to-maxx-950/85" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
         <div className="max-w-3xl">

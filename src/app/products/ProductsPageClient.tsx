@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -34,8 +35,14 @@ export default function ProductsPageClient({
     <>
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 overflow-hidden bg-maxx-900">
-        <div className="absolute inset-0 bg-gradient-to-br from-maxx-950 via-maxx-900 to-maxx-800" />
-        <div className="absolute inset-0 grid-pattern opacity-50" />
+        <Image
+          src="/maxx-containment-solutions-background.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-maxx-900/85 via-maxx-900/75 to-maxx-950/85" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.p

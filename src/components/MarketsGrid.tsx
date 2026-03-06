@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -10,42 +11,49 @@ import {
   Droplets,
   Mountain,
   ArrowRight,
+  type LucideIcon,
 } from "lucide-react";
 
-const markets = [
+const markets: { name: string; href: string; image: string; icon: LucideIcon; description: string }[] = [
   {
     name: "Oil & Gas",
     href: "/markets/oil-and-gas",
+    image: "/markets/oil-and-gas.jpg",
     icon: Fuel,
     description: "Comprehensive chemical and containment solutions for upstream, midstream, and downstream operations.",
   },
   {
     name: "Agriculture",
     href: "/markets/agriculture",
+    image: "/markets/agriculture.jpg",
     icon: Wheat,
     description: "Specialized chemical solutions for water treatment, soil management, and crop protection.",
   },
   {
     name: "Energy Recovery",
     href: "/markets/energy-recovery",
+    image: "/markets/energy-recovery.jpg",
     icon: Zap,
     description: "Chemical solutions supporting enhanced oil recovery and renewable energy production.",
   },
   {
     name: "Industrial",
     href: "/markets/industrial",
+    image: "/markets/industrial.jpg",
     icon: Factory,
     description: "Chemical supply and containment solutions for manufacturing and processing operations.",
   },
   {
     name: "Municipal Water",
     href: "/markets/municipal-water",
+    image: "/markets/municipal-water.jpg",
     icon: Droplets,
     description: "Water treatment chemicals for safe and reliable community water supply systems.",
   },
   {
     name: "Mining",
     href: "/markets/mining",
+    image: "/markets/mining.jpg",
     icon: Mountain,
     description: "Chemical and containment solutions for dust control, water treatment, and environmental compliance.",
   },
@@ -99,24 +107,39 @@ export default function MarketsGrid() {
               >
                 <Link
                   href={market.href}
-                  className="group block h-full bg-maxx-50 border border-maxx-100 hover:border-maxx-accent/30 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10"
+                  className="group block h-full relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-maxx-accent/10"
                 >
-                  <div className="inline-flex p-4 bg-maxx-accent/10 rounded-2xl mb-6 group-hover:bg-maxx-accent/20 transition-colors">
-                    <Icon className="h-10 w-10 text-maxx-accent" />
+                  {/* Background image */}
+                  <div className="absolute inset-0">
+                    <Image
+                      src={market.image}
+                      alt={market.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-maxx-950/90 via-maxx-950/50 to-maxx-950/20" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-maxx-900 mb-3 group-hover:text-maxx-accent transition-colors">
-                    {market.name}
-                  </h3>
+                  {/* Content */}
+                  <div className="relative p-8 min-h-[240px] flex flex-col justify-end text-center">
+                    <div className="inline-flex p-3 bg-maxx-accent/20 backdrop-blur-sm rounded-xl mb-4 self-center">
+                      <Icon className="h-8 w-8 text-maxx-mint" />
+                    </div>
 
-                  <p className="text-maxx-600 text-sm leading-relaxed mb-6">
-                    {market.description}
-                  </p>
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-maxx-mint transition-colors">
+                      {market.name}
+                    </h3>
 
-                  <span className="inline-flex items-center text-maxx-accent text-sm font-semibold group-hover:text-maxx-mint transition-colors">
-                    Learn More
-                    <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                    <p className="text-maxx-200 text-sm leading-relaxed mb-6">
+                      {market.description}
+                    </p>
+
+                    <span className="inline-flex items-center justify-center text-maxx-mint text-sm font-semibold group-hover:text-white transition-colors">
+                      Learn More
+                      <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
                 </Link>
               </motion.div>
             );
