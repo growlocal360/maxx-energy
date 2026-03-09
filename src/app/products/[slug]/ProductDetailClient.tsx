@@ -16,7 +16,7 @@ import RichTextContent from "@/components/RichTextContent";
 const productHeroImages: Record<string, string> = {
   "containment-solutions": "/containment-solutions-hero.jpg",
   "chemical-solutions": "/maxx-containment-solutions-background.jpg",
-  "spill-bully": "/spill-bully-hero.jpg",
+  "spill-control": "/spill-bully-hero.jpg",
 };
 
 function getProductIcon(slug: string) {
@@ -90,7 +90,7 @@ export default function ProductDetailClient({
             </motion.div>
 
             <div>
-              {product.slug === "spill-bully" && (
+              {product.slug === "spill-control" && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
