@@ -90,22 +90,6 @@ export default function ProductDetailClient({
             </motion.div>
 
             <div>
-              {product.slug === "spill-control" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="mb-4"
-                >
-                  <Image
-                    src="/spill-bully-preferred-distributor.png"
-                    alt="Spill Bully Preferred Distributor"
-                    width={200}
-                    height={80}
-                    className="h-auto"
-                  />
-                </motion.div>
-              )}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
