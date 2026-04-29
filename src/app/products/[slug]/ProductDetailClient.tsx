@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
+  Download,
   FlaskConical,
   Shield,
   Package,
@@ -126,6 +128,52 @@ export default function ProductDetailClient({
           </svg>
         </div>
       </section>
+
+      {/* Catalog Flipbook CTA — spill-control only */}
+      {product.slug === "spill-control" && (
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-maxx-900 to-maxx-700 p-8 sm:p-10 lg:p-12"
+            >
+              <div className="absolute inset-0 grid-pattern opacity-20" />
+              <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="text-maxx-accent font-semibold tracking-wider uppercase text-sm mb-3">
+                    First Response Catalog
+                  </p>
+                  <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                    Browse the full 49-page catalog
+                  </h2>
+                  <p className="text-maxx-200 leading-relaxed">
+                    Spill kits, absorbents, drain protection, containment, flood &amp; fire response, and Spill Rover marine response — flip through interactively or download the PDF.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                  <Link
+                    href="/products/spill-control/catalog"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-maxx-accent to-maxx-mint px-6 py-3 font-bold text-maxx-950 transition-all shadow-lg hover:shadow-xl hover:shadow-maxx-accent/25"
+                  >
+                    <BookOpen className="h-5 w-5" />
+                    <span>View Flipbook</span>
+                  </Link>
+                  <a
+                    href="/catalog/catalog.pdf"
+                    download
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/20"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>Download PDF</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Product Description */}
       {product.description && (
