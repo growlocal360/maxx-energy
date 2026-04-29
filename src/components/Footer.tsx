@@ -14,6 +14,7 @@ import {
 const productLinks = [
   { name: "Chemical Solutions", href: "/products/chemical-solutions" },
   { name: "Containment Solutions", href: "/products/containment-solutions" },
+  { name: "Spill Control / First Response", href: "/products/spill-control" },
 ];
 
 const companyLinks = [
