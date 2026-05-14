@@ -1,6 +1,17 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Download, Maximize2, Minimize2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  ListTree,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
+import { CATALOG_SECTIONS, currentSection } from "@/lib/catalog-sections";
 
 interface CatalogToolbarProps {
   currentPage: number;
@@ -10,6 +21,8 @@ interface CatalogToolbarProps {
   onPrev: () => void;
   onNext: () => void;
   onToggleFullscreen: () => void;
+  onJumpToPage: (page: number) => void;
+  onOpenContents: () => void;
 }
 
 export default function CatalogToolbar({
@@ -20,7 +33,31 @@ export default function CatalogToolbar({
   onPrev,
   onNext,
   onToggleFullscreen,
+  onJumpToPage,
+  onOpenContents,
 }: CatalogToolbarProps) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const here = currentSection(currentPage);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (!dropdownRef.current?.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDropdownOpen(false);
+    };
+    window.addEventListener("mousedown", onClick);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onClick);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [dropdownOpen]);
+
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl bg-maxx-950/95 px-4 py-3 text-white shadow-lg backdrop-blur sm:px-6">
       <div className="flex items-center gap-2">
@@ -45,9 +82,74 @@ export default function CatalogToolbar({
         <span className="ml-2 font-mono text-sm tabular-nums text-white/80">
           {Math.min(currentPage + 1, totalPages)} / {totalPages}
         </span>
+
+        <div ref={dropdownRef} className="relative ml-2">
+          <button
+            type="button"
+            onClick={() => setDropdownOpen((o) => !o)}
+            aria-haspopup="listbox"
+            aria-expanded={dropdownOpen}
+            className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-sm transition hover:bg-white/20"
+          >
+            <ListTree className="h-4 w-4 text-maxx-accent" />
+            <span className="max-w-28 truncate sm:max-w-none">
+              {here ? `${here.number} · ${here.title}` : "Jump to section"}
+            </span>
+            <ChevronDown
+              className={`h-4 w-4 transition ${
+                dropdownOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {dropdownOpen && (
+            <ul
+              role="listbox"
+              className="absolute bottom-12 left-0 z-10 w-64 overflow-hidden rounded-lg border border-white/10 bg-maxx-950 shadow-2xl"
+            >
+              {CATALOG_SECTIONS.map((s) => {
+                const isActive = here?.number === s.number;
+                return (
+                  <li key={s.number}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onJumpToPage(s.openerPage);
+                        setDropdownOpen(false);
+                      }}
+                      className={`flex w-full items-baseline justify-between px-4 py-2.5 text-left text-sm transition ${
+                        isActive
+                          ? "bg-maxx-accent/20 text-white"
+                          : "text-white/80 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      <span className="flex items-baseline gap-2">
+                        <span className="font-mono text-xs text-maxx-accent">
+                          {s.number}
+                        </span>
+                        <span>{s.title}</span>
+                      </span>
+                      <span className="font-mono text-xs text-white/50 tabular-nums">
+                        p. {s.openerPage}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onOpenContents}
+          aria-label="Open contents drawer"
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 transition hover:bg-white/20"
+        >
+          <BookOpen className="h-5 w-5" />
+        </button>
         <button
           type="button"
           onClick={onToggleFullscreen}
