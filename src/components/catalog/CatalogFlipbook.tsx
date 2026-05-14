@@ -28,6 +28,7 @@ type PageFlipApi = {
   flipNext: () => void;
   flipPrev: () => void;
   flip: (page: number, corner?: "top" | "bottom") => void;
+  turnToPage: (page: number) => void;
 };
 
 export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlipbookProps) {
@@ -50,7 +51,10 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
   const handleJumpToPage = useCallback(
     (page: number) => {
       const idx = Math.max(0, Math.min(totalPages - 1, page - 1));
-      flipRef.current?.pageFlip()?.flip(idx);
+      // page-flip's `flip(n)` only animates a single spread step — useless
+      // for multi-page jumps. `turnToPage(n)` teleports directly to any page
+      // and fires the flip event so currentPage stays in sync.
+      flipRef.current?.pageFlip()?.turnToPage(idx);
     },
     [totalPages],
   );
