@@ -153,22 +153,23 @@ export default function CatalogToolbar({
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Zoom controls — visible on all screen sizes (client reads on tablets) */}
-        <div className="flex items-center gap-1 rounded-lg bg-white/10 px-1">
+        {/* Zoom controls — visible on all screen sizes (client reads on tablets).
+            Buttons are ≥44px tall for reliable finger taps. */}
+        <div className="flex items-center gap-0.5 rounded-lg bg-white/10 px-0.5">
           <button
             type="button"
             onClick={onZoomOut}
             disabled={zoom <= MIN_ZOOM}
             aria-label="Zoom out"
-            className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-11 w-11 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <ZoomOut className="h-4 w-4" />
+            <ZoomOut className="h-5 w-5" />
           </button>
           <button
             type="button"
             onClick={onZoomReset}
             aria-label="Reset zoom to 100%"
-            className="w-12 text-center font-mono text-xs tabular-nums text-white/80 transition hover:text-white"
+            className="h-11 w-14 text-center font-mono text-xs tabular-nums text-white/80 transition hover:text-white"
           >
             {Math.round(zoom * 100)}%
           </button>
@@ -177,9 +178,9 @@ export default function CatalogToolbar({
             onClick={onZoomIn}
             disabled={zoom >= MAX_ZOOM}
             aria-label="Zoom in"
-            className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-11 w-11 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <ZoomIn className="h-4 w-4" />
+            <ZoomIn className="h-5 w-5" />
           </button>
         </div>
         <button

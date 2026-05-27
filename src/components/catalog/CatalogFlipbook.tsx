@@ -125,6 +125,7 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
           className={`relative mx-auto w-full max-w-[1100px] ${
             isZoomed ? "max-h-[80vh] overflow-hidden" : ""
           }`}
+          style={{ touchAction: isZoomed ? "none" : undefined }}
         >
           {/* Pan layer (translate, no transition so dragging is immediate) */}
           <div

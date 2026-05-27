@@ -17,11 +17,15 @@ const touchDist = (a: Touch, b: Touch) =>
  * drag-to-flip math (it maps pointers against an unscaled rect). So:
  *  - At zoom === 1 there is NO overlay and the transform is identity, so
  *    drag-to-flip and the TOC hotspots behave exactly as before.
- *  - At zoom > 1 a transparent overlay sits on top of the book and owns
- *    pointer drags (pan), so page-flip never sees them. Pages are turned
+ *  - At zoom > 1 a transparent overlay sits on top of the book and owns the
+ *    desktop mouse drag (pan), so page-flip never sees it. Pages are turned
  *    with the arrow buttons instead.
- *  - Pinch is handled by a capture-phase touch listener on the container so
- *    it fires before page-flip (and works to start zooming from 1).
+ *
+ * Touch is handled by ONE capture-phase listener on the viewport, driven by
+ * `e.touches` (always authoritative). Mixing touch + pointer events was the
+ * mobile bug: a `pointercancel` after a pinch left a stuck id in a pointer
+ * set, so panning silently stopped. Desktop uses mouse-only events; touch
+ * uses touch-only events; the two streams never overlap.
  *
  * Panning uses a translate transform (not scrollLeft), because CSS transforms
  * don't enlarge a parent's scroll area.
@@ -30,8 +34,8 @@ export function useZoomPan() {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
 
-  const containerRef = useRef<HTMLDivElement | null>(null); // pinch target + fullscreen
-  const viewportRef = useRef<HTMLDivElement | null>(null); // clipping box
+  const containerRef = useRef<HTMLDivElement | null>(null); // fullscreen target
+  const viewportRef = useRef<HTMLDivElement | null>(null); // clipping box + gesture surface
   const contentRef = useRef<HTMLDivElement | null>(null); // measured for clamp
 
   const zoomRef = useRef(zoom);
@@ -66,31 +70,60 @@ export function useZoomPan() {
   // Re-frame to top-center without changing zoom (used when turning pages).
   const recenter = useCallback(() => setPan({ x: 0, y: 0 }), []);
 
-  // Pinch — capture-phase touch listener on the container so it beats
-  // page-flip's own touch handlers and can start zooming from 1.
+  // --- Touch: one capture-phase listener on the viewport for pinch + pan ---
   useEffect(() => {
-    const el = containerRef.current;
+    const el = viewportRef.current;
     if (!el) return;
-    let startDist = 0;
+
+    let startDist = 0; // >0 while a 2-finger pinch is active
     let startZoom = 1;
+    let anchor: { x: number; y: number } | null = null; // pan anchor
+    let prevCount = 0;
+
     const onStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
         e.preventDefault();
         e.stopPropagation();
         startDist = touchDist(e.touches[0], e.touches[1]);
         startZoom = zoomRef.current;
+        anchor = null;
+      } else if (e.touches.length === 1 && zoomRef.current > 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        anchor = { x: e.touches[0].clientX, y: e.touches[0].clientY };
       }
+      // 1 finger at 100%: let it flow to page-flip (swipe-to-flip).
+      prevCount = e.touches.length;
     };
+
     const onMove = (e: TouchEvent) => {
       if (e.touches.length === 2 && startDist > 0) {
         e.preventDefault();
         e.stopPropagation();
         applyZoom(startZoom * (touchDist(e.touches[0], e.touches[1]) / startDist));
+      } else if (e.touches.length === 1 && zoomRef.current > 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        const t = e.touches[0];
+        if (anchor === null || prevCount !== 1) {
+          // First pan frame, or just dropped from 2→1 fingers: re-anchor, no jump.
+          anchor = { x: t.clientX, y: t.clientY };
+        } else {
+          const dx = t.clientX - anchor.x;
+          const dy = t.clientY - anchor.y;
+          anchor = { x: t.clientX, y: t.clientY };
+          setPan((p) => clampPan(p.x + dx, p.y + dy, zoomRef.current));
+        }
       }
+      prevCount = e.touches.length;
     };
+
     const onEnd = (e: TouchEvent) => {
       if (e.touches.length < 2) startDist = 0;
+      if (e.touches.length === 0) anchor = null;
+      prevCount = e.touches.length;
     };
+
     const opts = { capture: true, passive: false } as AddEventListenerOptions;
     el.addEventListener("touchstart", onStart, opts);
     el.addEventListener("touchmove", onMove, opts);
@@ -102,26 +135,21 @@ export function useZoomPan() {
       el.removeEventListener("touchend", onEnd, { capture: true });
       el.removeEventListener("touchcancel", onEnd, { capture: true });
     };
-  }, [applyZoom]);
+  }, [applyZoom, clampPan]);
 
-  // Pan — pointer handlers for the overlay. Single pointer only; 2+ pointers
-  // belong to the pinch listener above.
-  const active = useRef<Set<number>>(new Set());
+  // --- Desktop pan: mouse-only handlers for the overlay (no pointer events,
+  // so they can't collide with the touch listener above). ---
+  const dragging = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
 
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    active.current.add(e.pointerId);
-    if (active.current.size === 1) {
-      last.current = { x: e.clientX, y: e.clientY };
-      (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
-    } else {
-      last.current = null;
-    }
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    dragging.current = true;
+    last.current = { x: e.clientX, y: e.clientY };
   }, []);
 
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (active.current.size !== 1 || !last.current) return;
+  const onMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!dragging.current || !last.current) return;
       const dx = e.clientX - last.current.x;
       const dy = e.clientY - last.current.y;
       last.current = { x: e.clientX, y: e.clientY };
@@ -130,16 +158,16 @@ export function useZoomPan() {
     [clampPan],
   );
 
-  const onPointerUp = useCallback((e: React.PointerEvent) => {
-    active.current.delete(e.pointerId);
-    if (active.current.size === 0) last.current = null;
+  const endDrag = useCallback(() => {
+    dragging.current = false;
+    last.current = null;
   }, []);
 
   const overlayHandlers = {
-    onPointerDown,
-    onPointerMove,
-    onPointerUp,
-    onPointerCancel: onPointerUp,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp: endDrag,
+    onMouseLeave: endDrag,
   };
 
   return {
