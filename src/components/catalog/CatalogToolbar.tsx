@@ -10,19 +10,26 @@ import {
   ListTree,
   Maximize2,
   Minimize2,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import { CATALOG_SECTIONS, currentSection } from "@/lib/catalog-sections";
+import { MAX_ZOOM, MIN_ZOOM } from "./useZoomPan";
 
 interface CatalogToolbarProps {
   currentPage: number;
   totalPages: number;
   pdfUrl: string;
   isFullscreen: boolean;
+  zoom: number;
   onPrev: () => void;
   onNext: () => void;
   onToggleFullscreen: () => void;
   onJumpToPage: (page: number) => void;
   onOpenContents: () => void;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  onZoomReset: () => void;
 }
 
 export default function CatalogToolbar({
@@ -30,11 +37,15 @@ export default function CatalogToolbar({
   totalPages,
   pdfUrl,
   isFullscreen,
+  zoom,
   onPrev,
   onNext,
   onToggleFullscreen,
   onJumpToPage,
   onOpenContents,
+  onZoomIn,
+  onZoomOut,
+  onZoomReset,
 }: CatalogToolbarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -142,6 +153,35 @@ export default function CatalogToolbar({
       </div>
 
       <div className="flex items-center gap-2">
+        {/* Zoom controls — visible on all screen sizes (client reads on tablets) */}
+        <div className="flex items-center gap-1 rounded-lg bg-white/10 px-1">
+          <button
+            type="button"
+            onClick={onZoomOut}
+            disabled={zoom <= MIN_ZOOM}
+            aria-label="Zoom out"
+            className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ZoomOut className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onZoomReset}
+            aria-label="Reset zoom to 100%"
+            className="w-12 text-center font-mono text-xs tabular-nums text-white/80 transition hover:text-white"
+          >
+            {Math.round(zoom * 100)}%
+          </button>
+          <button
+            type="button"
+            onClick={onZoomIn}
+            disabled={zoom >= MAX_ZOOM}
+            aria-label="Zoom in"
+            className="flex h-8 w-8 items-center justify-center rounded-md transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ZoomIn className="h-4 w-4" />
+          </button>
+        </div>
         <button
           type="button"
           onClick={onOpenContents}

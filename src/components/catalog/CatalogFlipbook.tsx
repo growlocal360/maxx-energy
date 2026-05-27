@@ -6,6 +6,7 @@ import Image from "next/image";
 import CatalogToolbar from "./CatalogToolbar";
 import TOCDrawer from "./TOCDrawer";
 import TOCHotspots from "./TOCHotspots";
+import { useZoomPan } from "./useZoomPan";
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
 
@@ -33,10 +34,23 @@ type PageFlipApi = {
 
 export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlipbookProps) {
   const flipRef = useRef<{ pageFlip: () => PageFlipApi } | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const {
+    zoom,
+    pan,
+    isZoomed,
+    zoomIn,
+    zoomOut,
+    reset: resetZoom,
+    recenter,
+    containerRef,
+    viewportRef,
+    contentRef,
+    overlayHandlers,
+  } = useZoomPan();
 
   const totalPages = pages.length;
 
@@ -59,9 +73,14 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
     [totalPages],
   );
 
-  const handleFlip = useCallback((e: { data: number }) => {
-    setCurrentPage(e.data);
-  }, []);
+  const handleFlip = useCallback(
+    (e: { data: number }) => {
+      setCurrentPage(e.data);
+      // Re-frame the new page at top-center; keep the current zoom level.
+      recenter();
+    },
+    [recenter],
+  );
 
   const handleToggleFullscreen = useCallback(() => {
     if (!containerRef.current) return;
@@ -73,20 +92,27 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
   }, []);
 
   useEffect(() => {
-    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    const onFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+      // Avoid a disorienting scaled state across the fullscreen transition.
+      resetZoom();
+    };
     document.addEventListener("fullscreenchange", onFsChange);
     return () => document.removeEventListener("fullscreenchange", onFsChange);
-  }, []);
+  }, [resetZoom]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (drawerOpen) return;
       if (e.key === "ArrowLeft") handlePrev();
       else if (e.key === "ArrowRight") handleNext();
+      else if (e.key === "+" || e.key === "=") zoomIn();
+      else if (e.key === "-" || e.key === "_") zoomOut();
+      else if (e.key === "0") resetZoom();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [handlePrev, handleNext, drawerOpen]);
+  }, [handlePrev, handleNext, drawerOpen, zoomIn, zoomOut, resetZoom]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -94,44 +120,80 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
         ref={containerRef}
         className="relative flex items-center justify-center bg-gradient-to-br from-maxx-950 to-maxx-800 p-4 sm:p-8 md:rounded-2xl md:shadow-xl"
       >
-        <div className="w-full max-w-[1100px]">
-          {/* @ts-expect-error react-pageflip's prop types require many fields; Partial is fine at runtime */}
-          <HTMLFlipBook
-            ref={flipRef}
-            width={550}
-            height={711}
-            size="stretch"
-            minWidth={300}
-            maxWidth={1100}
-            minHeight={400}
-            maxHeight={1422}
-            maxShadowOpacity={0.5}
-            showCover
-            mobileScrollSupport
-            usePortrait
-            drawShadow
-            flippingTime={700}
-            className="mx-auto"
-            onFlip={handleFlip}
+        <div
+          ref={viewportRef}
+          className={`relative mx-auto w-full max-w-[1100px] ${
+            isZoomed ? "max-h-[80vh] overflow-hidden" : ""
+          }`}
+        >
+          {/* Pan layer (translate, no transition so dragging is immediate) */}
+          <div
+            ref={contentRef}
+            style={{
+              transform: `translate(${pan.x}px, ${pan.y}px)`,
+              transition: "none",
+            }}
           >
-            {pages.map((page) => (
-              <div key={page.index} className="relative overflow-hidden bg-white">
-                <Image
-                  src={`${basePath}/${page.src}`}
-                  alt={`Catalog page ${page.index}`}
-                  width={page.width}
-                  height={page.height}
-                  priority={page.index <= 4}
-                  loading={page.index <= 4 ? undefined : "lazy"}
-                  className="h-full w-full object-contain"
-                  draggable={false}
-                />
-                {page.index === CONTENTS_PAGE_INDEX + 1 && (
-                  <TOCHotspots onJumpToPage={handleJumpToPage} />
-                )}
-              </div>
-            ))}
-          </HTMLFlipBook>
+            {/* Scale layer (zoom level, animated) */}
+            <div
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: "top center",
+                transition: "transform 0.2s ease-out",
+                willChange: isZoomed ? "transform" : undefined,
+              }}
+            >
+              {/* @ts-expect-error react-pageflip's prop types require many fields; Partial is fine at runtime */}
+              <HTMLFlipBook
+                ref={flipRef}
+                width={550}
+                height={711}
+                size="stretch"
+                minWidth={300}
+                maxWidth={1100}
+                minHeight={400}
+                maxHeight={1422}
+                maxShadowOpacity={0.5}
+                showCover
+                mobileScrollSupport
+                usePortrait
+                drawShadow
+                flippingTime={700}
+                className="mx-auto"
+                onFlip={handleFlip}
+              >
+                {pages.map((page) => (
+                  <div key={page.index} className="relative overflow-hidden bg-white">
+                    <Image
+                      src={`${basePath}/${page.src}`}
+                      alt={`Catalog page ${page.index}`}
+                      width={page.width}
+                      height={page.height}
+                      priority={page.index <= 4}
+                      loading={page.index <= 4 ? undefined : "lazy"}
+                      className="h-full w-full object-contain"
+                      draggable={false}
+                    />
+                    {page.index === CONTENTS_PAGE_INDEX + 1 && (
+                      <TOCHotspots onJumpToPage={handleJumpToPage} />
+                    )}
+                  </div>
+                ))}
+              </HTMLFlipBook>
+            </div>
+          </div>
+
+          {/* Pan overlay — only while zoomed. Captures drags so page-flip
+              never misfires a flip; also covers the p.3 TOC hotspots (reset
+              to 100% to use them). */}
+          {isZoomed && (
+            <div
+              {...overlayHandlers}
+              aria-hidden
+              className="absolute inset-0 z-10 cursor-grab touch-none select-none active:cursor-grabbing"
+              style={{ touchAction: "none" }}
+            />
+          )}
         </div>
       </div>
 
@@ -141,11 +203,15 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
           totalPages={totalPages}
           pdfUrl={pdfUrl}
           isFullscreen={isFullscreen}
+          zoom={zoom}
           onPrev={handlePrev}
           onNext={handleNext}
           onToggleFullscreen={handleToggleFullscreen}
           onJumpToPage={handleJumpToPage}
           onOpenContents={() => setDrawerOpen(true)}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onZoomReset={resetZoom}
         />
       </div>
 
