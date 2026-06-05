@@ -39,8 +39,8 @@ export default function AdminSubProductsPage() {
 
     const { data: subData } = await supabase
       .from("sub_products")
-      .select("*")
-      .eq("product_id", productId)
+      .select("*, sub_product_categories!inner(product_id)")
+      .eq("sub_product_categories.product_id", productId)
       .order("display_order", { ascending: true });
 
     setSubProducts(subData || []);

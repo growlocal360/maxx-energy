@@ -10,8 +10,8 @@ export async function GET(
 
   const { data, error } = await supabase
     .from("sub_products")
-    .select("*")
-    .eq("product_id", id)
+    .select("*, sub_product_categories!inner(product_id)")
+    .eq("sub_product_categories.product_id", id)
     .order("display_order", { ascending: true });
 
   if (error) {
@@ -37,15 +37,31 @@ export async function POST(
   }
 
   const body = await request.json();
+  const { category_ids, ...fields } = body as {
+    category_ids?: string[];
+    [key: string]: unknown;
+  };
 
   const { data, error } = await supabase
     .from("sub_products")
-    .insert({ ...body, product_id: id })
+    .insert({ ...fields, product_id: id })
     .select()
     .single();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Write category memberships (home category is always included)
+  const categoryIds = Array.from(new Set([id, ...(category_ids ?? [])]));
+  const { error: joinError } = await supabase
+    .from("sub_product_categories")
+    .insert(
+      categoryIds.map((product_id) => ({ sub_product_id: data.id, product_id }))
+    );
+
+  if (joinError) {
+    return NextResponse.json({ error: joinError.message }, { status: 500 });
   }
 
   return NextResponse.json(data);

@@ -13,19 +13,22 @@ export async function generateMetadata({
 
   const { data: product } = await supabase
     .from("products")
-    .select("name")
+    .select("id, name")
     .eq("slug", slug)
     .eq("published", true)
     .single();
 
+  if (!product) return { title: "Not Found" };
+
   const { data: subProduct } = await supabase
     .from("sub_products")
-    .select("name")
+    .select("name, sub_product_categories!inner(product_id)")
     .eq("slug", subSlug)
+    .eq("sub_product_categories.product_id", product.id)
     .eq("published", true)
     .single();
 
-  if (!product || !subProduct) return { title: "Not Found" };
+  if (!subProduct) return { title: "Not Found" };
 
   return {
     title: `${subProduct.name} | ${product.name} | MAXX Energy Services`,
@@ -55,12 +58,12 @@ export default async function SubProductDetailPage({
 
   if (!product) notFound();
 
-  // Fetch sub-product
+  // Fetch sub-product (must be a member of this category via the join table)
   const { data: subProduct } = await supabase
     .from("sub_products")
-    .select("*")
+    .select("*, sub_product_categories!inner(product_id)")
     .eq("slug", subSlug)
-    .eq("product_id", product.id)
+    .eq("sub_product_categories.product_id", product.id)
     .eq("published", true)
     .single();
 
