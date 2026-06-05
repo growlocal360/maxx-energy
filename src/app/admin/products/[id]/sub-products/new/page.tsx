@@ -14,6 +14,8 @@ export default function NewSubProductPage() {
   const productId = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [categoryIds, setCategoryIds] = useState<string[]>([productId]);
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -24,16 +26,24 @@ export default function NewSubProductPage() {
   const [published, setPublished] = useState(false);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const response = await fetch(`/api/products/${productId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setProduct(data);
-      }
+    const fetchData = async () => {
+      const [productRes, allRes] = await Promise.all([
+        fetch(`/api/products/${productId}`),
+        fetch(`/api/products`),
+      ]);
+      if (productRes.ok) setProduct(await productRes.json());
+      if (allRes.ok) setAllProducts(await allRes.json());
     };
 
-    fetchProduct();
+    fetchData();
   }, [productId]);
+
+  const toggleCategory = (id: string) => {
+    if (id === productId) return; // home category is always included
+    setCategoryIds((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+    );
+  };
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -57,6 +67,7 @@ export default function NewSubProductPage() {
         image_url: imageUrl || null,
         display_order: displayOrder,
         published,
+        category_ids: categoryIds,
       }),
     });
 
@@ -170,6 +181,45 @@ export default function NewSubProductPage() {
               </button>
               <p className="text-maxx-400 text-sm mt-2">
                 {published ? "Sub-product will be visible on the website" : "Sub-product will be saved as a draft"}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.22 }}
+              className="bg-maxx-900 border border-maxx-700 rounded-xl p-6"
+            >
+              <h3 className="text-lg font-semibold text-white mb-4">Categories</h3>
+              <div className="space-y-2">
+                {allProducts.map((cat) => (
+                  <label
+                    key={cat.id}
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${
+                      cat.id === productId
+                        ? "bg-maxx-800/50"
+                        : "hover:bg-maxx-800"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={categoryIds.includes(cat.id)}
+                      disabled={cat.id === productId}
+                      onChange={() => toggleCategory(cat.id)}
+                      className="h-4 w-4 accent-maxx-accent disabled:opacity-60"
+                    />
+                    <span className="text-sm text-maxx-200">
+                      {cat.name}
+                      {cat.id === productId && (
+                        <span className="text-maxx-400"> (home)</span>
+                      )}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-maxx-400 text-sm mt-3">
+                Show this product under multiple categories. The home category is
+                always included.
               </p>
             </motion.div>
 

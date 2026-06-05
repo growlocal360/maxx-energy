@@ -27,6 +27,9 @@ export interface SubProduct {
   published: boolean;
   created_at: string;
   updated_at: string;
+  // Categories this sub-product is listed under (populated by admin GET).
+  // product_id is the "home" category and is always included.
+  category_ids?: string[];
 }
 
 export interface ProductItem {

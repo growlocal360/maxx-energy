@@ -54,8 +54,8 @@ export default async function ProductDetailPage({
 
   const { data: subProducts } = await supabase
     .from("sub_products")
-    .select("*")
-    .eq("product_id", product.id)
+    .select("*, sub_product_categories!inner(product_id)")
+    .eq("sub_product_categories.product_id", product.id)
     .eq("published", true)
     .order("display_order", { ascending: true });
 

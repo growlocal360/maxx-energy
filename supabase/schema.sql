@@ -5,6 +5,7 @@
 -- Drop existing tables (in dependency order)
 drop table if exists contact_submissions cascade;
 drop table if exists project_images cascade;
+drop table if exists sub_product_categories cascade;
 drop table if exists sub_products cascade;
 drop table if exists products cascade;
 drop table if exists projects cascade;
@@ -76,6 +77,16 @@ create table if not exists sub_products (
   published boolean default false,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
+);
+
+-- ============================================
+-- SUB-PRODUCT CATEGORIES (join: sub_products <-> products)
+-- Lets a sub-product appear under multiple categories.
+-- ============================================
+create table if not exists sub_product_categories (
+  sub_product_id uuid references sub_products(id) on delete cascade not null,
+  product_id uuid references products(id) on delete cascade not null,
+  primary key (sub_product_id, product_id)
 );
 
 -- ============================================
@@ -225,6 +236,7 @@ alter table approved_emails enable row level security;
 alter table team_members enable row level security;
 alter table products enable row level security;
 alter table sub_products enable row level security;
+alter table sub_product_categories enable row level security;
 alter table projects enable row level security;
 alter table project_images enable row level security;
 alter table markets enable row level security;
@@ -308,6 +320,13 @@ create policy "Admins can update sub-products" on sub_products
 
 create policy "Admins can delete sub-products" on sub_products
   for delete to authenticated using (true);
+
+-- Sub-Product Categories (join table)
+create policy "Public can read sub_product_categories" on sub_product_categories
+  for select using (true);
+
+create policy "Admins manage sub_product_categories" on sub_product_categories
+  for all to authenticated using (true) with check (true);
 
 -- Projects
 create policy "Admins can read all projects" on projects
@@ -456,6 +475,11 @@ cross join (values
   ('Dust & Noise Control', 'dust-noise-control', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Environmental control solutions including dust suppression products and noise barrier systems for industrial operations."}]}]}', 'Wind', 5)
 ) as s(name, slug, description, icon, display_order)
 where p.slug = 'containment-solutions';
+
+-- Backfill join table: each sub-product belongs to its home category
+insert into sub_product_categories (sub_product_id, product_id)
+select id, product_id from sub_products
+on conflict do nothing;
 
 -- Markets
 insert into markets (name, slug, description, display_order, published) values
