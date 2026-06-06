@@ -12,7 +12,7 @@ const products = [
     icon: FlaskConical,
     image: "/maxx-containment-solutions-background.jpg",
     description:
-      "Revolutionary oilfield chemical formulations delivering permanent, cost-effective solutions for fracturing, production, drilling, water treatment, and more.",
+      "Revolutionary industrial chemical formulations delivering permanent, cost-effective solutions for fracturing, production, drilling, water treatment, and more.",
     features: [
       "Acid Chemicals & Inhibitors",
       "Frac Chemical Systems",
@@ -20,6 +20,11 @@ const products = [
       "Coiled Tubing Chemicals",
       "Water Treatment Solutions",
       "Agricultural Chemicals",
+    ],
+    featuresRight: [
+      "Industrial Chemicals",
+      "Data Center Chemical Solutions",
+      "Commodity Chemicals",
     ],
   },
   {
@@ -37,6 +42,7 @@ const products = [
       "Dust Control Systems",
       "Noise Control Barriers",
     ],
+    featuresRight: [] as string[],
   },
 ];
 
@@ -115,17 +121,37 @@ export default function ProductsOverview() {
                       {product.description}
                     </p>
 
-                    <ul className="space-y-2 mb-8">
-                      {product.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center text-sm text-maxx-300"
-                        >
-                          <div className="w-1.5 h-1.5 rounded-full bg-maxx-mint mr-3 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                    {product.featuresRight.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-8">
+                        {[product.features, product.featuresRight].map(
+                          (col, ci) => (
+                            <ul key={ci} className="space-y-2">
+                              {col.map((feature) => (
+                                <li
+                                  key={feature}
+                                  className="flex items-center text-sm text-maxx-300"
+                                >
+                                  <div className="w-1.5 h-1.5 rounded-full bg-maxx-mint mr-3 flex-shrink-0" />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <ul className="space-y-2 mb-8">
+                        {product.features.map((feature) => (
+                          <li
+                            key={feature}
+                            className="flex items-center text-sm text-maxx-300"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-maxx-mint mr-3 flex-shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
                     <span className="inline-flex items-center text-maxx-mint font-semibold group-hover:text-white transition-colors">
                       Learn More
