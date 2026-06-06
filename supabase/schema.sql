@@ -1,6 +1,19 @@
 -- MAXX Energy Services - Supabase Database Schema
--- Run this in your Supabase SQL Editor to create all tables
--- Safe to re-run: drops existing tables first
+--
+-- ⚠️⚠️⚠️  DESTRUCTIVE — DO NOT RUN ON PRODUCTION  ⚠️⚠️⚠️
+-- This script DROPS every table and reseeds demo data. Running it against the
+-- live database WIPES all admin-entered content (products, items, team photos,
+-- projects, etc.). It is for first-time/local setup only.
+-- For an existing/production database, use additive migrations instead
+-- (e.g. add-multi-category.sql). To recover from an accidental run: restore the
+-- most recent Supabase backup (Database -> Backups), then re-run only the
+-- additive migrations.
+--
+-- SAFETY GUARD: the block below aborts the script. To run intentionally on a
+-- fresh database, delete the guard block.
+do $$ begin
+  raise exception 'schema.sql is DESTRUCTIVE (drops & reseeds ALL tables). Delete this guard block only on a fresh DB you intend to wipe. NEVER run on production.';
+end $$;
 
 -- Drop existing tables (in dependency order)
 drop table if exists contact_submissions cascade;
@@ -447,7 +460,7 @@ insert into team_members (name, title, email, phone, display_order, published) v
 
 -- Products
 insert into products (name, slug, tagline, description, icon, display_order, published) values
-  ('Chemical Solutions', 'chemical-solutions', 'Revolutionary Oilfield Chemical Formulations', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"MAXX Energy Services develops revolutionary oilfield chemical formulations that deliver permanent, cost-effective solutions. Our comprehensive chemical product line serves fracturing, production, drilling, coiled tubing, water treatment, completions, agricultural, industrial, and municipal applications."}]}]}', 'FlaskConical', 1, true),
+  ('Chemical Solutions', 'chemical-solutions', 'Revolutionary Industrial Chemical Formulations', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"MAXX Energy Services develops revolutionary oilfield chemical formulations that deliver permanent, cost-effective solutions. Our comprehensive chemical product line serves fracturing, production, drilling, coiled tubing, water treatment, completions, agricultural, industrial, and municipal applications."}]}]}', 'FlaskConical', 1, true),
   ('Containment Solutions', 'containment-solutions', 'Industry-Leading Spill Containment & Environmental Protection', '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"MAXX Energy Services provides industry-leading containment solutions including secondary spill containment berms, pond liners, dust control, and noise control products. Our containment products feature high chemical resistance and are designed for demanding industrial environments."}]}]}', 'Shield', 2, true);
 
 -- Sub-Products for Chemical Solutions

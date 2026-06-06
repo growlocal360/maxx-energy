@@ -1,6 +1,16 @@
 -- MAXX Energy Services - Product Items Migration
--- Run this in the Supabase SQL Editor AFTER schema.sql
--- Adds the product_items table and seeds it with chemical catalog data
+--
+-- ⚠️⚠️⚠️  DESTRUCTIVE — DO NOT RUN ON PRODUCTION  ⚠️⚠️⚠️
+-- This script DROPS the product_items table and reseeds the chemical catalog,
+-- wiping any admin-entered product items (e.g. the Spill Kit items). It is for
+-- first-time/local setup only. To recover from an accidental run: restore the
+-- most recent Supabase backup (Database -> Backups).
+--
+-- SAFETY GUARD: the block below aborts the script. To run intentionally on a
+-- fresh database, delete the guard block.
+do $$ begin
+  raise exception 'add-product-items.sql is DESTRUCTIVE (drops & reseeds product_items). Delete this guard block only on a fresh DB. NEVER run on production.';
+end $$;
 
 -- ============================================
 -- PRODUCT ITEMS TABLE
