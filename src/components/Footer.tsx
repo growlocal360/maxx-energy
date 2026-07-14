@@ -126,11 +126,11 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@maxxenergysvcs.com"
+                  href="mailto:information@maxxenergysvcs.com"
                   className="flex items-center space-x-3 text-maxx-300 hover:text-maxx-mint text-sm transition-colors"
                 >
                   <Mail className="h-4 w-4 text-maxx-mint flex-shrink-0" />
-                  <span>info@maxxenergysvcs.com</span>
+                  <span>information@maxxenergysvcs.com</span>
                 </a>
               </li>
             </ul>
@@ -150,10 +150,10 @@ export default function Footer() {
             </a>
             <span className="text-maxx-600">|</span>
             <a
-              href="mailto:info@maxxenergysvcs.com"
+              href="mailto:information@maxxenergysvcs.com"
               className="text-maxx-accent hover:text-maxx-mint text-sm transition-colors"
             >
-              info@maxxenergysvcs.com
+              information@maxxenergysvcs.com
             </a>
           </div>
           <p className="text-maxx-400 text-sm">
