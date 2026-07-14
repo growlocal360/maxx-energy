@@ -89,7 +89,7 @@ export default function NewLocationPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-maxx-200 mb-2">Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 bg-maxx-800 border border-maxx-700 focus:border-maxx-accent rounded-lg text-white placeholder-maxx-400 outline-none transition-colors" placeholder="info@maxxenergysvcs.com" />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 bg-maxx-800 border border-maxx-700 focus:border-maxx-accent rounded-lg text-white placeholder-maxx-400 outline-none transition-colors" placeholder="information@maxxenergysvcs.com" />
               </div>
             </motion.div>
 

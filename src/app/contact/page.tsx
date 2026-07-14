@@ -24,8 +24,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "info@maxxenergysvcs.com",
-    href: "mailto:info@maxxenergysvcs.com",
+    value: "information@maxxenergysvcs.com",
+    href: "mailto:information@maxxenergysvcs.com",
   },
   {
     icon: MapPin,

@@ -507,5 +507,5 @@ insert into shale_plays (name, slug, description, region, lat, lng, display_orde
 
 -- Locations
 insert into locations (name, address, city, state, zip, phone, email, is_headquarters, published) values
-  ('Godley, TX (Headquarters)', 'PO Box 444', 'Godley', 'TX', '76044', '1-833-777-6299', 'info@maxxenergysvcs.com', true, true),
-  ('Odessa, TX', '2250 South Dixie Boulevard', 'Odessa', 'TX', '79766', '1-833-777-6299', 'info@maxxenergysvcs.com', false, true);
+  ('Godley, TX (Headquarters)', 'PO Box 444', 'Godley', 'TX', '76044', '1-833-777-6299', 'information@maxxenergysvcs.com', true, true),
+  ('Odessa, TX', '8001 W Hwy 80 E', 'Odessa', 'TX', '79765', '1-833-777-6299', 'information@maxxenergysvcs.com', false, true);
