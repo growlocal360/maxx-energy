@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -14,8 +15,10 @@ import {
   MapPin,
   ExternalLink,
   Droplets,
+  Inbox,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
   {
@@ -63,10 +66,29 @@ const navItems = [
     href: "/admin/locations",
     icon: MapPin,
   },
+  {
+    label: "Messages",
+    href: "/admin/messages",
+    icon: Inbox,
+  },
 ];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const fetchUnread = async () => {
+      const { count } = await supabase
+        .from("contact_submissions")
+        .select("id", { count: "exact", head: true })
+        .eq("read", false);
+      setUnreadCount(count || 0);
+    };
+    fetchUnread();
+    // Refresh whenever the admin navigates (e.g. after reading a message).
+  }, [pathname]);
 
   const isActive = (href: string) => {
     if (href === "/admin") {
@@ -107,7 +129,12 @@ export default function AdminSidebar() {
               )}
             >
               <Icon className="h-5 w-5" />
-              <span>{item.label}</span>
+              <span className="flex-1">{item.label}</span>
+              {item.href === "/admin/messages" && unreadCount > 0 && (
+                <span className="px-2 py-0.5 rounded-full bg-maxx-accent text-maxx-900 text-xs font-bold">
+                  {unreadCount}
+                </span>
+              )}
             </Link>
           );
         })}
