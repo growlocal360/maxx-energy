@@ -12,6 +12,7 @@ import {
   Newspaper,
   Briefcase,
   MapPin,
+  Inbox,
   Plus,
   ArrowRight,
 } from "lucide-react";
@@ -29,6 +30,8 @@ interface DashboardStats {
   jobsCount: number;
   activeJobsCount: number;
   locationsCount: number;
+  messagesCount: number;
+  unreadMessagesCount: number;
 }
 
 export default function AdminDashboard() {
@@ -44,6 +47,8 @@ export default function AdminDashboard() {
     jobsCount: 0,
     activeJobsCount: 0,
     locationsCount: 0,
+    messagesCount: 0,
+    unreadMessagesCount: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -63,6 +68,8 @@ export default function AdminDashboard() {
         jobsResult,
         activeJobsResult,
         locationsResult,
+        messagesResult,
+        unreadMessagesResult,
       ] = await Promise.all([
         supabase.from("team_members").select("id", { count: "exact", head: true }),
         supabase.from("products").select("id", { count: "exact", head: true }),
@@ -75,6 +82,8 @@ export default function AdminDashboard() {
         supabase.from("job_postings").select("id", { count: "exact", head: true }),
         supabase.from("job_postings").select("id", { count: "exact", head: true }).eq("published", true),
         supabase.from("locations").select("id", { count: "exact", head: true }),
+        supabase.from("contact_submissions").select("id", { count: "exact", head: true }),
+        supabase.from("contact_submissions").select("id", { count: "exact", head: true }).eq("read", false),
       ]);
 
       setStats({
@@ -89,6 +98,8 @@ export default function AdminDashboard() {
         jobsCount: jobsResult.count || 0,
         activeJobsCount: activeJobsResult.count || 0,
         locationsCount: locationsResult.count || 0,
+        messagesCount: messagesResult.count || 0,
+        unreadMessagesCount: unreadMessagesResult.count || 0,
       });
       setLoading(false);
     };
@@ -161,6 +172,15 @@ export default function AdminDashboard() {
       href: "/admin/locations",
       newHref: "/admin/locations/new",
     },
+    {
+      title: "Messages",
+      total: stats.messagesCount,
+      published: null,
+      unread: stats.unreadMessagesCount,
+      icon: Inbox,
+      href: "/admin/messages",
+      newHref: null,
+    },
   ];
 
   return (
@@ -189,13 +209,15 @@ export default function AdminDashboard() {
                 <div className="p-3 rounded-lg bg-maxx-accent/10">
                   <Icon className="h-6 w-6 text-maxx-accent" />
                 </div>
-                <Link
-                  href={card.newHref}
-                  className="flex items-center space-x-1 text-sm text-maxx-400 hover:text-maxx-mint transition-colors"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span>Add New</span>
-                </Link>
+                {card.newHref && (
+                  <Link
+                    href={card.newHref}
+                    className="flex items-center space-x-1 text-sm text-maxx-400 hover:text-maxx-mint transition-colors"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Add New</span>
+                  </Link>
+                )}
               </div>
 
               <h3 className="text-lg font-semibold text-white mb-1">
@@ -212,6 +234,11 @@ export default function AdminDashboard() {
                   {card.published !== null && (
                     <span className="text-maxx-400 text-sm">
                       ({card.published} published)
+                    </span>
+                  )}
+                  {"unread" in card && (card.unread ?? 0) > 0 && (
+                    <span className="text-maxx-accent text-sm font-medium">
+                      ({card.unread} unread)
                     </span>
                   )}
                 </div>
