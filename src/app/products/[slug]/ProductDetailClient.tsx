@@ -28,12 +28,12 @@ const productHeroImages: Record<string, string> = {
 // categories. Files live in /public.
 const productGalleries: Record<string, GalleryImage[]> = {
   "box-parts": [
-    { src: "/box-parts/tarp-kit-with-hardware.jpg", alt: "Roll-off tarp kit with bows, ratchet and hardware" },
+    { src: "/box-parts/roll-off-tarp-kit-bows-ratchet-hardware.jpg", alt: "Roll-off tarp kit with bows, ratchet and hardware" },
     { src: "/box-parts/tarp-kit-hardware-detail.jpg", alt: "Tarp kit hardware detail" },
-    { src: "/box-parts/tarps-rolled.jpg", alt: "Replacement roll-off tarps" },
-    { src: "/box-parts/chain-straps-and-hook.jpg", alt: "Grade 70 chain, straps and hook" },
+    { src: "/box-parts/replacement-roll-off-tarps.jpg", alt: "Replacement roll-off tarps" },
+    { src: "/box-parts/grade-70-chain-straps-hook.jpg", alt: "Grade 70 chain, straps and hook" },
     { src: "/box-parts/ratchet-load-binders.jpg", alt: "Ratchet load binders" },
-    { src: "/box-parts/rollers-and-pins.jpg", alt: "Rollers, wheels and pins" },
+    { src: "/box-parts/roll-off-container-pins-wheels-rollers.jpg", alt: "Roll-off container pins, wheels and rollers" },
   ],
 };
 
