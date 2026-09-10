@@ -14,6 +14,8 @@ interface ImageGalleryProps {
   images: GalleryImage[];
   eyebrow?: string;
   title?: string;
+  /** "square": cutout product shots on white, shown whole. "landscape": 4:3 photos, cropped to fill. */
+  aspect?: "square" | "landscape";
 }
 
 /** Responsive photo grid with a click-to-enlarge lightbox. */
@@ -21,7 +23,14 @@ export default function ImageGallery({
   images,
   eyebrow,
   title,
+  aspect = "square",
 }: ImageGalleryProps) {
+  const tileClass =
+    aspect === "landscape"
+      ? "aspect-[4/3] bg-maxx-50"
+      : "aspect-square bg-white";
+  const imageClass =
+    aspect === "landscape" ? "object-cover" : "object-contain p-3";
   const [index, setIndex] = useState<number | null>(null);
 
   if (images.length === 0) return null;
@@ -62,14 +71,14 @@ export default function ImageGallery({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-maxx-100 hover:border-maxx-accent/40 hover:shadow-lg hover:shadow-maxx-accent/10 transition-all cursor-zoom-in"
+                className={`group relative ${tileClass} rounded-2xl overflow-hidden border border-maxx-100 hover:border-maxx-accent/40 hover:shadow-lg hover:shadow-maxx-accent/10 transition-all cursor-zoom-in`}
                 aria-label={`Enlarge: ${img.alt}`}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                  className={`${imageClass} group-hover:scale-105 transition-transform duration-300`}
                   sizes="(max-width: 768px) 50vw, 33vw"
                 />
               </motion.button>
