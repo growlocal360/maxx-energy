@@ -11,6 +11,7 @@ import {
   FlaskConical,
   Shield,
   Package,
+  Wrench,
 } from "lucide-react";
 import type { Product } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
@@ -27,6 +28,8 @@ function getProductIcon(slug: string) {
       return FlaskConical;
     case "containment-solutions":
       return Shield;
+    case "box-parts":
+      return Wrench;
     default:
       return Package;
   }

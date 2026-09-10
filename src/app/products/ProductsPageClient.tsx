@@ -9,6 +9,7 @@ import {
   Shield,
   Package,
   ChevronRight,
+  Wrench,
 } from "lucide-react";
 import type { Product } from "@/lib/types";
 
@@ -19,6 +20,8 @@ function getProductIcon(slug: string) {
       return FlaskConical;
     case "containment-solutions":
       return Shield;
+    case "box-parts":
+      return Wrench;
     default:
       return Package;
   }
