@@ -104,7 +104,11 @@ export default function CatalogToolbar({
           >
             <ListTree className="h-4 w-4 text-maxx-accent" />
             <span className="max-w-28 truncate sm:max-w-none">
-              {here ? `${here.number} · ${here.title}` : "Jump to section"}
+              {here
+                ? here.number
+                  ? `${here.number} · ${here.title}`
+                  : here.title
+                : "Jump to section"}
             </span>
             <ChevronDown
               className={`h-4 w-4 transition ${
@@ -119,9 +123,9 @@ export default function CatalogToolbar({
               className="absolute bottom-12 left-0 z-10 w-64 overflow-hidden rounded-lg border border-white/10 bg-maxx-950 shadow-2xl"
             >
               {CATALOG_SECTIONS.map((s) => {
-                const isActive = here?.number === s.number;
+                const isActive = here?.title === s.title;
                 return (
-                  <li key={s.number}>
+                  <li key={s.title}>
                     <button
                       type="button"
                       onClick={() => {
@@ -136,7 +140,7 @@ export default function CatalogToolbar({
                     >
                       <span className="flex items-baseline gap-2">
                         <span className="font-mono text-xs text-maxx-accent">
-                          {s.number}
+                          {s.number || "+"}
                         </span>
                         <span>{s.title}</span>
                       </span>

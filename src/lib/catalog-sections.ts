@@ -103,12 +103,20 @@ export const CATALOG_SECTIONS: TocSection[] = [
       { label: "Gilligan AI · Predictive Analytics", page: 50 },
     ],
   },
+  {
+    // Non-spill cross-promo page; no section number by design.
+    number: "",
+    eyebrow: "ALSO FROM MAXX",
+    title: "Roll-Off Box Parts",
+    openerPage: 51,
+    items: [{ label: "Parts · Tarps · Gaskets · Hardware", page: 51 }],
+  },
 ];
 
 /**
  * Finds the section the user is currently reading, given the 0-based
  * flip-book page index. Returns undefined for front-matter (pages 1–6)
- * and back-matter (pages 51–53), so callers can render a neutral label.
+ * and back-matter (pages 52–54), so callers can render a neutral label.
  */
 export function currentSection(pageIndex: number): TocSection | undefined {
   const pos = pageIndex + 1;
