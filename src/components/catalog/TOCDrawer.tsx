@@ -83,7 +83,7 @@ export default function TOCDrawer({
           <ul className="flex flex-col gap-6">
             {CATALOG_SECTIONS.map((s) => (
               <SectionBlock
-                key={s.number}
+                key={s.title}
                 section={s}
                 currentPage={currentPage}
                 onJump={handleJump}
@@ -122,7 +122,8 @@ function SectionBlock({
       >
         <div>
           <div className="font-mono text-[10px] uppercase tracking-widest text-maxx-accent">
-            {section.number} · {section.eyebrow}
+            {section.number ? `${section.number} · ` : ""}
+            {section.eyebrow}
           </div>
           <div className="font-display text-xl font-bold tracking-tight">
             {section.title}

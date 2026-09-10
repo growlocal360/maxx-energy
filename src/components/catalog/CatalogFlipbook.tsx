@@ -6,6 +6,7 @@ import Image from "next/image";
 import CatalogToolbar from "./CatalogToolbar";
 import TOCDrawer from "./TOCDrawer";
 import TOCHotspots from "./TOCHotspots";
+import LinkHotspots, { LINK_HOTSPOTS } from "./LinkHotspots";
 import { useZoomPan } from "./useZoomPan";
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
@@ -177,6 +178,9 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
                     />
                     {page.index === CONTENTS_PAGE_INDEX + 1 && (
                       <TOCHotspots onJumpToPage={handleJumpToPage} />
+                    )}
+                    {LINK_HOTSPOTS[page.index] && (
+                      <LinkHotspots page={page.index} />
                     )}
                   </div>
                 ))}
