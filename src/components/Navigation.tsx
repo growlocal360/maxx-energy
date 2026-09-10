@@ -25,6 +25,7 @@ const productLinks = [
   { name: "Chemical Solutions", href: "/products/chemical-solutions" },
   { name: "Containment Solutions", href: "/products/containment-solutions" },
   { name: "Spill Control / First Response", href: "/products/spill-control" },
+  { name: "Roll Off Box Parts", href: "/products/box-parts" },
 ];
 
 const marketLinks = [
