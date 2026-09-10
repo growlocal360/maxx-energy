@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { Product, SubProduct } from "@/lib/types";
+import type { Product, SubProduct, ProductItem } from "@/lib/types";
 import ProductDetailClient from "./ProductDetailClient";
 
 interface ProductDetailPageProps {
@@ -59,10 +59,26 @@ export default async function ProductDetailPage({
     .eq("published", true)
     .order("display_order", { ascending: true });
 
+  const subs = (subProducts as SubProduct[]) || [];
+
   const productWithSubs: Product = {
     ...product,
-    sub_products: (subProducts as SubProduct[]) || [],
+    sub_products: subs,
   };
 
-  return <ProductDetailClient product={productWithSubs} />;
+  // A category with a single sub-product shows that sub-product's items
+  // directly on the category page instead of a one-card "lineup".
+  let inlineItems: ProductItem[] | undefined;
+  if (subs.length === 1) {
+    const { data: items } = await supabase
+      .from("product_items")
+      .select("*")
+      .eq("sub_product_id", subs[0].id)
+      .order("display_order", { ascending: true });
+    inlineItems = (items || []) as ProductItem[];
+  }
+
+  return (
+    <ProductDetailClient product={productWithSubs} inlineItems={inlineItems} />
+  );
 }
