@@ -6,6 +6,17 @@ import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 import type { Product, SubProduct, ProductItem } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
 import ProductItemsTable from "@/components/ProductItemsTable";
+import ImageGallery, { type GalleryImage } from "@/components/ImageGallery";
+
+// Photo galleries shown between the description and the items list,
+// keyed by sub-product slug. Files live in /public.
+const subProductGalleries: Record<string, GalleryImage[]> = {
+  "pond-liners": [
+    { src: "/pond-liners/pond-liners-industrial-maxx-energy-services.jpg", alt: "Industrial pond liner installation on an oilfield site" },
+    { src: "/pond-liners/large-pond-liners-for-sale-maxx-energy-services.jpg", alt: "Large lined containment pond" },
+    { src: "/pond-liners/pond-liners-municipal-maxx-energy-services.jpg", alt: "Municipal and agricultural pond liner" },
+  ],
+};
 
 interface SubProductDetailClientProps {
   product: Product;
@@ -18,6 +29,8 @@ export default function SubProductDetailClient({
   subProduct,
   items,
 }: SubProductDetailClientProps) {
+  const gallery = subProductGalleries[subProduct.slug] || [];
+
   return (
     <>
       {/* Hero Section */}
@@ -105,6 +118,9 @@ export default function SubProductDetailClient({
           </div>
         </section>
       )}
+
+      {/* Photo gallery (only for sub-products with one configured) */}
+      <ImageGallery images={gallery} aspect="landscape" />
 
       {/* Product Items Table */}
       <ProductItemsTable items={items} title={subProduct.name} />
