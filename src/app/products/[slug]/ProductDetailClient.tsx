@@ -13,13 +13,28 @@ import {
   Package,
   Wrench,
 } from "lucide-react";
-import type { Product } from "@/lib/types";
+import type { Product, ProductItem } from "@/lib/types";
 import RichTextContent from "@/components/RichTextContent";
+import ProductItemsTable from "@/components/ProductItemsTable";
+import ImageGallery, { type GalleryImage } from "@/components/ImageGallery";
 
 const productHeroImages: Record<string, string> = {
   "containment-solutions": "/containment-solutions-hero.jpg",
   "chemical-solutions": "/maxx-containment-solutions-background.jpg",
   "spill-control": "/spill-bully-hero.jpg",
+};
+
+// Photo strip shown above the inline product list on single-sub-product
+// categories. Files live in /public.
+const productGalleries: Record<string, GalleryImage[]> = {
+  "box-parts": [
+    { src: "/box-parts/tarp-kit-with-hardware.jpg", alt: "Roll-off tarp kit with bows, ratchet and hardware" },
+    { src: "/box-parts/tarp-kit-hardware-detail.jpg", alt: "Tarp kit hardware detail" },
+    { src: "/box-parts/tarps-rolled.jpg", alt: "Replacement roll-off tarps" },
+    { src: "/box-parts/chain-straps-and-hook.jpg", alt: "Grade 70 chain, straps and hook" },
+    { src: "/box-parts/ratchet-load-binders.jpg", alt: "Ratchet load binders" },
+    { src: "/box-parts/rollers-and-pins.jpg", alt: "Rollers, wheels and pins" },
+  ],
 };
 
 function getProductIcon(slug: string) {
@@ -37,13 +52,21 @@ function getProductIcon(slug: string) {
 
 interface ProductDetailClientProps {
   product: Product;
+  /** Set when the category has exactly one sub-product: its items render inline. */
+  inlineItems?: ProductItem[];
 }
 
 export default function ProductDetailClient({
   product,
+  inlineItems,
 }: ProductDetailClientProps) {
   const Icon = getProductIcon(product.slug);
   const heroImage = productHeroImages[product.slug];
+  const gallery = productGalleries[product.slug] || [];
+  const singleSub =
+    inlineItems !== undefined && product.sub_products?.length === 1
+      ? product.sub_products[0]
+      : null;
 
   return (
     <>
@@ -194,8 +217,20 @@ export default function ProductDetailClient({
         </section>
       )}
 
+      {/* Single sub-product: photos + product list inline */}
+      {singleSub && (
+        <>
+          <ImageGallery images={gallery} />
+          <ProductItemsTable
+            items={inlineItems || []}
+            title={singleSub.name}
+            eyebrow="Parts List"
+          />
+        </>
+      )}
+
       {/* Sub-Products Grid */}
-      {product.sub_products && product.sub_products.length > 0 && (
+      {!singleSub && product.sub_products && product.sub_products.length > 0 && (
         <section className="py-20 bg-maxx-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
