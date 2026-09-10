@@ -62,14 +62,14 @@ export default function ImageGallery({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-maxx-50 border border-maxx-100 hover:border-maxx-accent/40 hover:shadow-lg hover:shadow-maxx-accent/10 transition-all cursor-zoom-in"
+                className="group relative aspect-square rounded-2xl overflow-hidden bg-white border border-maxx-100 hover:border-maxx-accent/40 hover:shadow-lg hover:shadow-maxx-accent/10 transition-all cursor-zoom-in"
                 aria-label={`Enlarge: ${img.alt}`}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 50vw, 33vw"
                 />
               </motion.button>
