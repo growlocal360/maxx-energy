@@ -157,9 +157,18 @@ export default function Footer() {
               information@maxxenergysvcs.com
             </a>
           </div>
-          <p className="text-maxx-400 text-sm">
-            &copy; {new Date().getFullYear()} MAXX Energy Services. All rights reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-x-4 gap-y-2 text-sm">
+            <Link
+              href="/privacy-policy"
+              className="text-maxx-300 hover:text-maxx-mint transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <span className="hidden sm:inline text-maxx-600">|</span>
+            <p className="text-maxx-400">
+              &copy; {new Date().getFullYear()} MAXX Energy Services. All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
