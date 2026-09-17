@@ -30,6 +30,7 @@ const productLinks = [
 
 const marketLinks = [
   { name: "Oil & Gas", href: "/markets/oil-and-gas" },
+  { name: "Data Centers", href: "/markets/data-centers" },
   { name: "Agriculture", href: "/markets/agriculture" },
   { name: "Energy Recovery", href: "/markets/energy-recovery" },
   { name: "Municipal Water", href: "/markets/municipal-water" },
