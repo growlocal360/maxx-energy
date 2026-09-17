@@ -10,6 +10,8 @@ interface ImageUploadProps {
   bucket?: string;
   folder?: string;
   label?: string;
+  /** "contain" shows the whole image on a dark ground — use for logos. */
+  fit?: "cover" | "contain";
 }
 
 export default function ImageUpload({
@@ -18,6 +20,7 @@ export default function ImageUpload({
   bucket = "uploads",
   folder = "team",
   label = "Photo",
+  fit = "cover",
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -84,7 +87,11 @@ export default function ImageUpload({
           <img
             src={value}
             alt="Preview"
-            className="w-full h-48 object-cover rounded-lg border border-maxx-700"
+            className={
+              fit === "contain"
+                ? "w-full h-32 object-contain p-4 rounded-lg border border-maxx-700 bg-maxx-950"
+                : "w-full h-48 object-cover rounded-lg border border-maxx-700"
+            }
           />
           <button
             type="button"
@@ -118,7 +125,7 @@ export default function ImageUpload({
             <>
               <Upload className="h-8 w-8 text-maxx-400 mb-2" />
               <p className="text-maxx-300 text-sm">Click or drag to upload</p>
-              <p className="text-maxx-500 text-xs mt-1">PNG, JPG up to 5MB</p>
+              <p className="text-maxx-500 text-xs mt-1">{fit === "contain" ? "SVG or PNG up to 5MB" : "PNG, JPG up to 5MB"}</p>
             </>
           )}
         </div>

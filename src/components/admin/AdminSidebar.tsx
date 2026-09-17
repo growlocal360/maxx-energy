@@ -16,6 +16,7 @@ import {
   ExternalLink,
   Droplets,
   Inbox,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -65,6 +66,11 @@ const navItems = [
     label: "Locations",
     href: "/admin/locations",
     icon: MapPin,
+  },
+  {
+    label: "Catalog Brands",
+    href: "/admin/catalog-brands",
+    icon: BookOpen,
   },
   {
     label: "Messages",
