@@ -5,13 +5,11 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import CatalogToolbar from "./CatalogToolbar";
 import TOCDrawer from "./TOCDrawer";
-import TOCHotspots from "./TOCHotspots";
-import LinkHotspots, { LINK_HOTSPOTS } from "./LinkHotspots";
+import Hotspots from "./Hotspots";
+import type { CatalogLinks, TocSection } from "@/lib/catalog-nav";
 import { useZoomPan } from "./useZoomPan";
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
-
-const CONTENTS_PAGE_INDEX = 2;
 
 interface CatalogPage {
   index: number;
@@ -24,6 +22,12 @@ interface CatalogFlipbookProps {
   pages: CatalogPage[];
   pdfUrl: string;
   basePath: string;
+  /** Table of contents for the toolbar dropdown and drawer (nav.json). */
+  sections: TocSection[];
+  /** Click targets per page (links.json). */
+  links: CatalogLinks;
+  /** Set when pages are served from remote storage: skips the image optimizer. */
+  unoptimized?: boolean;
 }
 
 type PageFlipApi = {
@@ -33,7 +37,14 @@ type PageFlipApi = {
   turnToPage: (page: number) => void;
 };
 
-export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlipbookProps) {
+export default function CatalogFlipbook({
+  pages,
+  pdfUrl,
+  basePath,
+  sections,
+  links,
+  unoptimized = false,
+}: CatalogFlipbookProps) {
   const flipRef = useRef<{ pageFlip: () => PageFlipApi } | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -173,14 +184,15 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
                       height={page.height}
                       priority={page.index <= 4}
                       loading={page.index <= 4 ? undefined : "lazy"}
+                      unoptimized={unoptimized}
                       className="h-full w-full object-contain"
                       draggable={false}
                     />
-                    {page.index === CONTENTS_PAGE_INDEX + 1 && (
-                      <TOCHotspots onJumpToPage={handleJumpToPage} />
-                    )}
-                    {LINK_HOTSPOTS[page.index] && (
-                      <LinkHotspots page={page.index} />
+                    {links[page.index] && (
+                      <Hotspots
+                        links={links[page.index]}
+                        onJumpToPage={handleJumpToPage}
+                      />
                     )}
                   </div>
                 ))}
@@ -189,7 +201,7 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
           </div>
 
           {/* Pan overlay — only while zoomed. Captures drags so page-flip
-              never misfires a flip; also covers the p.3 TOC hotspots (reset
+              never misfires a flip; also covers the page hotspots (reset
               to 100% to use them). */}
           {isZoomed && (
             <div
@@ -206,6 +218,7 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
         <CatalogToolbar
           currentPage={currentPage}
           totalPages={totalPages}
+          sections={sections}
           pdfUrl={pdfUrl}
           isFullscreen={isFullscreen}
           zoom={zoom}
@@ -221,6 +234,7 @@ export default function CatalogFlipbook({ pages, pdfUrl, basePath }: CatalogFlip
       </div>
 
       <TOCDrawer
+        sections={sections}
         open={drawerOpen}
         currentPage={currentPage}
         onClose={() => setDrawerOpen(false)}

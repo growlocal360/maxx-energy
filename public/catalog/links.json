@@ -1,0 +1,348 @@
+{
+  "3": [
+    {
+      "kind": "jump",
+      "target": 7,
+      "label": "Spill Kits",
+      "x": 0.05882,
+      "y": 0.26499,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 9,
+      "label": "Compact 2.5 Gal Bag",
+      "x": 0.05882,
+      "y": 0.31361,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 10,
+      "label": "High-Viz 5 Gal Bag",
+      "x": 0.05882,
+      "y": 0.33554,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 12,
+      "label": "High-Viz 10 Gal Bag",
+      "x": 0.05882,
+      "y": 0.35747,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 13,
+      "label": "Stackable 7 Gal Crate",
+      "x": 0.05882,
+      "y": 0.37939,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 14,
+      "label": "Let's Roll 25 Gal Cart",
+      "x": 0.05882,
+      "y": 0.40132,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 15,
+      "label": "Backpack 30 Gal Bag",
+      "x": 0.05882,
+      "y": 0.42325,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 16,
+      "label": "Cubic Yard Bulk",
+      "x": 0.05882,
+      "y": 0.44518,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 24,
+      "label": "Drain Protection",
+      "x": 0.05882,
+      "y": 0.51663,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 26,
+      "label": "Fire-Resistant Drain Cover",
+      "x": 0.05882,
+      "y": 0.56525,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 27,
+      "label": "Inlet Filter",
+      "x": 0.05882,
+      "y": 0.58718,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 28,
+      "label": "Grate Filter",
+      "x": 0.05882,
+      "y": 0.60911,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 29,
+      "label": "Sediment Control Insert",
+      "x": 0.05882,
+      "y": 0.63104,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 30,
+      "label": "Cut-to-Size Inlet",
+      "x": 0.05882,
+      "y": 0.65297,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 40,
+      "label": "Emergency Response",
+      "x": 0.05882,
+      "y": 0.72442,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 41,
+      "label": "Pronto Sacks — Reusable Flood",
+      "x": 0.05882,
+      "y": 0.77304,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 42,
+      "label": "Flood Bags & Barriers",
+      "x": 0.05882,
+      "y": 0.79497,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 43,
+      "label": "Fire Blankets",
+      "x": 0.05882,
+      "y": 0.81689,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 51,
+      "label": "Roll-Off Box Parts",
+      "x": 0.05882,
+      "y": 0.88835,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 18,
+      "label": "Absorbents",
+      "x": 0.52941,
+      "y": 0.26499,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 20,
+      "label": "Spill Bully Recycled Paper",
+      "x": 0.52941,
+      "y": 0.31361,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 21,
+      "label": "Spill Bully LIGHT · Coconut Coir",
+      "x": 0.52941,
+      "y": 0.33554,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 22,
+      "label": "Absorbent Pads & Diapers",
+      "x": 0.52941,
+      "y": 0.35747,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 23,
+      "label": "Selection Chart",
+      "x": 0.52941,
+      "y": 0.37939,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 31,
+      "label": "Spill & Berm",
+      "x": 0.52941,
+      "y": 0.45085,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 32,
+      "label": "Windproof Flex Drip Tray",
+      "x": 0.52941,
+      "y": 0.49947,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 33,
+      "label": "Flex Spill Barrier",
+      "x": 0.52941,
+      "y": 0.5214,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 34,
+      "label": "Drive-Over Containment",
+      "x": 0.52941,
+      "y": 0.54332,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 35,
+      "label": "L-Bracket Containment",
+      "x": 0.52941,
+      "y": 0.56525,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 36,
+      "label": "Poly Wall Systems",
+      "x": 0.52941,
+      "y": 0.58718,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 37,
+      "label": "Secondary Containment",
+      "x": 0.52941,
+      "y": 0.60911,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 38,
+      "label": "UN-Rated Zipper Tote",
+      "x": 0.52941,
+      "y": 0.63104,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 39,
+      "label": "Drive-Over Cover",
+      "x": 0.52941,
+      "y": 0.65297,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 44,
+      "label": "On-Water Recovery",
+      "x": 0.52941,
+      "y": 0.72442,
+      "w": 0.41176,
+      "h": 0.04136
+    },
+    {
+      "kind": "jump",
+      "target": 45,
+      "label": "Spill Rover · Autonomous Vessel",
+      "x": 0.52941,
+      "y": 0.77304,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 49,
+      "label": "Spill Buoy · Water Monitoring",
+      "x": 0.52941,
+      "y": 0.79497,
+      "w": 0.41176,
+      "h": 0.02193
+    },
+    {
+      "kind": "jump",
+      "target": 50,
+      "label": "Gilligan AI · Predictive Analytics",
+      "x": 0.52941,
+      "y": 0.81689,
+      "w": 0.41176,
+      "h": 0.02193
+    }
+  ],
+  "51": [
+    {
+      "kind": "href",
+      "href": "https://www.maxxenergysvcs.com/products/box-parts",
+      "label": "BROWSE ROLL-OFF BOX PARTS→",
+      "x": 0.58559,
+      "y": 0.86269,
+      "w": 0.32263,
+      "h": 0.03459
+    }
+  ]
+}

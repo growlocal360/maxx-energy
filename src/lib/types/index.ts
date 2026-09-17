@@ -6,6 +6,11 @@ export type { ShalePlay } from "./shale-plays";
 export type { NewsArticle } from "./news";
 export type { JobPosting } from "./careers";
 export type { Location } from "./locations";
+export type {
+  CatalogBrand,
+  CatalogBrandColors,
+  CatalogBuildStatus,
+} from "./catalog-brands";
 
 export interface ContactSubmission {
   id: string;

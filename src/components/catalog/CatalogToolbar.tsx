@@ -13,12 +13,13 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
-import { CATALOG_SECTIONS, currentSection } from "@/lib/catalog-sections";
+import { currentSection, type TocSection } from "@/lib/catalog-nav";
 import { MAX_ZOOM, MIN_ZOOM } from "./useZoomPan";
 
 interface CatalogToolbarProps {
   currentPage: number;
   totalPages: number;
+  sections: TocSection[];
   pdfUrl: string;
   isFullscreen: boolean;
   zoom: number;
@@ -35,6 +36,7 @@ interface CatalogToolbarProps {
 export default function CatalogToolbar({
   currentPage,
   totalPages,
+  sections,
   pdfUrl,
   isFullscreen,
   zoom,
@@ -49,7 +51,7 @@ export default function CatalogToolbar({
 }: CatalogToolbarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const here = currentSection(currentPage);
+  const here = currentSection(sections, currentPage);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -122,7 +124,7 @@ export default function CatalogToolbar({
               role="listbox"
               className="absolute bottom-12 left-0 z-10 w-64 overflow-hidden rounded-lg border border-white/10 bg-maxx-950 shadow-2xl"
             >
-              {CATALOG_SECTIONS.map((s) => {
+              {sections.map((s) => {
                 const isActive = here?.title === s.title;
                 return (
                   <li key={s.title}>

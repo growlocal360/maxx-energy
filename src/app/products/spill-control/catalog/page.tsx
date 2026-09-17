@@ -2,8 +2,11 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
-import manifest from "../../../../../public/catalog/manifest.json";
 import CatalogFlipbook from "@/components/catalog/CatalogFlipbook";
+import { getCatalogBuild } from "@/lib/catalog-build";
+
+// A rebuilt catalog goes live within a minute, with no deploy.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Spill Control Catalog | MAXX Energy Services",
@@ -17,7 +20,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CatalogPage() {
+export default async function CatalogPage() {
+  const build = await getCatalogBuild("maxx");
+
   return (
     <>
       {/* Hero Section */}
@@ -52,7 +57,7 @@ export default function CatalogPage() {
                 First Response Catalog
               </h1>
               <p className="text-xl text-maxx-200 max-w-3xl leading-relaxed">
-                Flip through the full {manifest.pageCount}-page product catalog, or download the PDF.
+                Flip through the full {build.pageCount}-page product catalog, or download the PDF.
               </p>
             </div>
           </div>
@@ -79,9 +84,12 @@ export default function CatalogPage() {
       <section className="bg-maxx-50 pb-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <CatalogFlipbook
-            pages={manifest.pages}
-            pdfUrl="/catalog/catalog.pdf"
-            basePath="/catalog"
+            pages={build.pages}
+            pdfUrl={build.pdfUrl}
+            basePath={build.basePath}
+            sections={build.sections}
+            links={build.links}
+            unoptimized={build.remote}
           />
         </div>
       </section>

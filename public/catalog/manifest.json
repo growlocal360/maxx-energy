@@ -1,329 +1,387 @@
 {
+  "brand": {
+    "slug": "maxx",
+    "displayName": "MAXX First Response Solutions"
+  },
+  "buildId": "20260917-205021",
   "pageCount": 54,
-  "generatedAt": "2026-09-10T18:07:42.455Z",
-  "sourceUrl": "http://localhost:3000",
+  "generatedAt": "2026-09-17T20:50:57.849Z",
   "deviceScale": 2,
   "pages": [
     {
       "index": 1,
+      "key": "cover",
       "src": "page-01.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 2,
+      "key": "about",
       "src": "page-02.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 3,
+      "key": "contents",
       "src": "page-03.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 4,
+      "key": "problem",
       "src": "page-04.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 5,
+      "key": "materials-left",
       "src": "page-05.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 6,
+      "key": "materials-right",
       "src": "page-06.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 7,
+      "key": "opener-01",
       "src": "page-07.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 8,
+      "key": "why-01",
       "src": "page-08.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 9,
+      "key": "01.01",
       "src": "page-09.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 10,
+      "key": "01.02",
       "src": "page-10.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 11,
+      "key": "kit-hero",
       "src": "page-11.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 12,
+      "key": "01.03",
       "src": "page-12.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 13,
+      "key": "01.04",
       "src": "page-13.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 14,
+      "key": "01.05",
       "src": "page-14.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 15,
+      "key": "01.06",
       "src": "page-15.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 16,
+      "key": "01.07",
       "src": "page-16.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 17,
+      "key": "cleanup-steps",
       "src": "page-17.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 18,
+      "key": "opener-02",
       "src": "page-18.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 19,
+      "key": "why-02",
       "src": "page-19.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 20,
+      "key": "02.01",
       "src": "page-20.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 21,
+      "key": "02.02",
       "src": "page-21.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 22,
+      "key": "02.03",
       "src": "page-22.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 23,
+      "key": "absorbent-chart",
       "src": "page-23.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 24,
+      "key": "opener-03",
       "src": "page-24.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 25,
+      "key": "why-03",
       "src": "page-25.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 26,
+      "key": "03.01",
       "src": "page-26.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 27,
+      "key": "03.02",
       "src": "page-27.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 28,
+      "key": "03.03",
       "src": "page-28.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 29,
+      "key": "03.04",
       "src": "page-29.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 30,
+      "key": "03.05",
       "src": "page-30.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 31,
+      "key": "opener-04",
       "src": "page-31.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 32,
+      "key": "04.01",
       "src": "page-32.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 33,
+      "key": "04.02",
       "src": "page-33.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 34,
+      "key": "04.03",
       "src": "page-34.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 35,
+      "key": "04.04",
       "src": "page-35.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 36,
+      "key": "04.05",
       "src": "page-36.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 37,
+      "key": "04.06",
       "src": "page-37.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 38,
+      "key": "04.07",
       "src": "page-38.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 39,
+      "key": "04.08",
       "src": "page-39.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 40,
+      "key": "opener-05",
       "src": "page-40.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 41,
+      "key": "05.01",
       "src": "page-41.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 42,
+      "key": "05.02",
       "src": "page-42.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 43,
+      "key": "05.03",
       "src": "page-43.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 44,
+      "key": "opener-06",
       "src": "page-44.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 45,
+      "key": "rover",
       "src": "page-45.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 46,
+      "key": "rover-scenarios",
       "src": "page-46.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 47,
+      "key": "rover-specs",
       "src": "page-47.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 48,
+      "key": "rover-detail",
       "src": "page-48.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 49,
+      "key": "buoy",
       "src": "page-49.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 50,
+      "key": "gilligan",
       "src": "page-50.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 51,
+      "key": "box-parts",
       "src": "page-51.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 52,
+      "key": "index",
       "src": "page-52.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 53,
+      "key": "about-page",
       "src": "page-53.webp",
       "width": 1632,
       "height": 2112
     },
     {
       "index": 54,
+      "key": "back-cover",
       "src": "page-54.webp",
       "width": 1632,
       "height": 2112

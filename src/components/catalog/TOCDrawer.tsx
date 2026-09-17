@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { ChevronRight, X } from "lucide-react";
-import { CATALOG_SECTIONS, type TocSection } from "@/lib/catalog-sections";
+import type { TocSection } from "@/lib/catalog-nav";
 
 interface TOCDrawerProps {
+  sections: TocSection[];
   open: boolean;
   currentPage: number;
   onClose: () => void;
@@ -12,6 +13,7 @@ interface TOCDrawerProps {
 }
 
 export default function TOCDrawer({
+  sections,
   open,
   currentPage,
   onClose,
@@ -81,7 +83,7 @@ export default function TOCDrawer({
 
         <div className="flex-1 overflow-y-auto px-6 py-4">
           <ul className="flex flex-col gap-6">
-            {CATALOG_SECTIONS.map((s) => (
+            {sections.map((s) => (
               <SectionBlock
                 key={s.title}
                 section={s}
