@@ -11,7 +11,7 @@ import {
 } from "@/lib/types/catalog-brands";
 import type { CatalogBrand } from "@/lib/types";
 
-const HUB_DOMAIN = process.env.NEXT_PUBLIC_CATALOG_HUB_DOMAIN || "";
+const HUB_DOMAIN = process.env.NEXT_PUBLIC_CATALOG_HUB_DOMAIN || "firstresponsecatalog.com";
 
 const DEFAULT_ACCENT = "#00afc7";
 const DEFAULT_NAVY = "#001029";
