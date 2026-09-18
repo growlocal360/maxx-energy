@@ -9,7 +9,7 @@ import {
   Zap,
   Factory,
   Droplets,
-  Mountain,
+  Server,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
@@ -21,6 +21,13 @@ const markets: { name: string; href: string; image: string; icon: LucideIcon; de
     image: "/markets/oil-and-gas.jpg",
     icon: Fuel,
     description: "Comprehensive chemical and containment solutions for upstream, midstream, and downstream operations.",
+  },
+  {
+    name: "Data Centers",
+    href: "/markets/data-centers",
+    image: "/markets/data-centers/hero.jpg",
+    icon: Server,
+    description: "Engineered hydronic flushing, cooling water treatment, chemical supply, and containment for data center builds.",
   },
   {
     name: "Agriculture",
@@ -49,13 +56,6 @@ const markets: { name: string; href: string; image: string; icon: LucideIcon; de
     image: "/markets/municipal-water.jpg",
     icon: Droplets,
     description: "Water treatment chemicals for safe and reliable community water supply systems.",
-  },
-  {
-    name: "Mining",
-    href: "/markets/mining",
-    image: "/markets/mining.jpg",
-    icon: Mountain,
-    description: "Chemical and containment solutions for dust control, water treatment, and environmental compliance.",
   },
 ];
 
