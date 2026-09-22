@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import LinkedInInsightTag from "@/components/LinkedInInsightTag";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +48,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-maxx-900`}
       >
         <LayoutWrapper>{children}</LayoutWrapper>
+        <LinkedInInsightTag />
       </body>
     </html>
   );
