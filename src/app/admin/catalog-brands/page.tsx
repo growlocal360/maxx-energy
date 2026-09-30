@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Plus, Pencil, Trash2, Search, ExternalLink, BookOpen, RefreshCw } from "lucide-react";
 import type { CatalogBrand, CatalogBuildStatus } from "@/lib/types";
 
-const HUB_DOMAIN = process.env.NEXT_PUBLIC_CATALOG_HUB_DOMAIN || "";
+const HUB_DOMAIN = process.env.NEXT_PUBLIC_CATALOG_HUB_DOMAIN || "firstresponsecatalog.com";
 
 const BUILD_BADGE: Record<CatalogBuildStatus, { label: string; className: string }> = {
   never: { label: "Not built", className: "bg-maxx-700 text-maxx-300" },
